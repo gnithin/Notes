@@ -8,6 +8,8 @@ Almost nothing in this repo will be original. Do not forget to put as many refer
 This is a list of all the directories and reading materials - 
 
 <!-- LABEL_BEGIN -->
+- **Git**
+  - [pre-push.sh](https://github.com/gnithin/Notes/tree/master/Notes/Git/pre-push.sh)
 - **PHP**
   - [pros-n-cons.md](https://github.com/gnithin/Notes/tree/master/Notes/PHP/pros-n-cons.md)
 - **CSS**
