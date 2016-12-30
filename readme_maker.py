@@ -4,6 +4,8 @@ from pprint import pprint
 import copy
 import sys
 
+PRINT_LOG = False
+
 
 class DirTree:
     sep = ";"
@@ -28,7 +30,8 @@ class DirTree:
                             copy.deepcopy(self.default_struct)
                     current_obj = current_obj["dirs"][key]
             except Exception:
-                print(sys.exc_info()[0])
+                if PRINT_LOG:
+                    print(sys.exc_info()[0])
                 current_obj = None
         return current_obj
 
@@ -68,7 +71,8 @@ class DirTree:
         return ""
 
     def print_tree(self):
-        pprint(self.dir_tree)
+        if PRINT_LOG:
+            pprint(self.dir_tree)
 
     def get_text(self):
         current_obj = self.dir_tree
@@ -133,6 +137,8 @@ class ReadmeMaker:
         return self.dir_tree.get_text()
 
     def update_readme(self):
+        did_update = False
+
         # Fetch the readme.
         with open(self.readme_file_path, 'r') as fp:
             readme_contents = (fp.read()).strip()
@@ -157,10 +163,12 @@ class ReadmeMaker:
                 with open(self.readme_file_path, 'w') as fw:
                     fw.write(new_contents)
             except:
-                print("Could not write to file")
-                print(sys.exc_info()[0])
+                if PRINT_LOG:
+                    print("Could not write to file")
+                    print(sys.exc_info()[0])
             else:
-                print("Updated " + self.readme_file_path)
+                did_update = True
+        return did_update
 
 
 if __name__ == "__main__":
@@ -169,4 +177,10 @@ if __name__ == "__main__":
 
     rd_maker = ReadmeMaker(notes_path, readme_path)
     # rd_maker.print_tree()
-    rd_maker.update_readme()
+    did_update = rd_maker.update_readme()
+
+    if did_update:
+        print("Updated :)")
+        print(readme_path)
+    else:
+        print("Failed!")
