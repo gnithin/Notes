@@ -8,8 +8,6 @@ Almost nothing in this repo will be original. Do not forget to put as many refer
 This is a list of all the directories and reading materials - 
 
 <!-- LABEL_BEGIN -->
-- **PHP**
-  - [pros-n-cons.md](https://github.com/gnithin/Notes/tree/master/Notes/PHP/pros-n-cons.md)
 - **css**
   - [flex.md](https://github.com/gnithin/Notes/tree/master/Notes/css/flex.md)
 - **react-native**
