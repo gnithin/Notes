@@ -9,7 +9,7 @@ This is a list of all the directories and reading materials -
 
 <!-- LABEL_BEGIN -->
 - **PHP**
-  - [pros-n-cons.php](https://github.com/gnithin/Notes/tree/master/Notes/PHP/pros-n-cons.php)
+  - [pros-n-cons.md](https://github.com/gnithin/Notes/tree/master/Notes/PHP/pros-n-cons.md)
 - **CSS**
   - [flex.md](https://github.com/gnithin/Notes/tree/master/Notes/CSS/flex.md)
 - **React-Native**
