@@ -10,11 +10,11 @@ This is a list of all the directories and reading materials -
 <!-- LABEL_BEGIN -->
 - **PHP**
   - [pros-n-cons.php](https://github.com/gnithin/Notes/tree/master/Notes/PHP/pros-n-cons.php)
-- **css**
-  - [flex.md](https://github.com/gnithin/Notes/tree/master/Notes/css/flex.md)
-- **react-native**
-  - [react-native-notes.md](https://github.com/gnithin/Notes/tree/master/Notes/react-native/react-native-notes.md)
-  - [react-notes.md](https://github.com/gnithin/Notes/tree/master/Notes/react-native/react-notes.md)
-  - [rn_dir_helper.sh](https://github.com/gnithin/Notes/tree/master/Notes/react-native/rn_dir_helper.sh)
+- **CSS**
+  - [flex.md](https://github.com/gnithin/Notes/tree/master/Notes/CSS/flex.md)
+- **React-Native**
+  - [react-native-notes.md](https://github.com/gnithin/Notes/tree/master/Notes/React-Native/react-native-notes.md)
+  - [react-notes.md](https://github.com/gnithin/Notes/tree/master/Notes/React-Native/react-notes.md)
+  - [rn_dir_helper.sh](https://github.com/gnithin/Notes/tree/master/Notes/React-Native/rn_dir_helper.sh)
 
 <!-- LABEL_END -->
