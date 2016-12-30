@@ -113,6 +113,9 @@ class DirTree:
 
 
 class ReadmeMaker:
+    START_LABEL = "<!-- LABEL_BEGIN -->\n"
+    END_LABEL = "\n<!-- LABEL_END -->"
+
     def __init__(self, notes_path, readme_file_path):
         self.path = notes_path
         self.dir_tree = DirTree(notes_path)
@@ -136,8 +139,8 @@ class ReadmeMaker:
 
         if readme_contents != "":
             # Fetch the location between the thing is supposed to be written.
-            start_label = "<!-- LABEL_BEGIN -->\n"
-            end_label = "\n<!-- LABEL_END -->"
+            start_label = self.START_LABEL
+            end_label = self.END_LABEL
             start_index = readme_contents.find(start_label)
             end_index = readme_contents.find(end_label)
 
