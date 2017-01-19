@@ -57,9 +57,14 @@ TODO: Add examples here!
 
 ## Important regex notations 
 
-
-
-
-#### Tidbits
+## Grouping 
 - The indices of the capturing groups are depth first. Even in that, the order is Root - Children(Starting from the left-most). [Example here](https://regex101.com/r/X7fCOF/2)
 <!--- If there is a combination of something like this - `(\w)+` the capturing group will only capture the last element and discard earlier ones. Make sure to use ((\w)+) if you need the whole thing. [Example here](https://regex101.com/r/1DFTOY/1)-->
+
+## Backtracking
+
+## Greediness and Laziness
+
+## Lookaround
+
+# Examples
