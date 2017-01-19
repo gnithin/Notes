@@ -36,8 +36,12 @@ Matches -  ['"wonderful text"']
 ```
 [Source](http://stackoverflow.com/a/22589854/1518924)
 
-### Usage of regexes in python
-Regexes contains characters that have special meaning to them. Characters like `\` in `\d` shorthand character class are essential to the semantics of a regex. If we use them similar to the way we use strings(i.e enclosing them in double/single quotes) in python, they'll be treated as escape sequences. A simple solution is to raw strings for regexes. In raw strings, the backslashes are not treated as a special case.
+### Python and regex
+Regexes come in many flavors. By that, I mean regex engines. The regex engine is the piece of code that basically evaluates a string against a regex. There are differences in the various regex flavors. The ones that we, as people who use them, need to be concerned about are regarding the feature set and the syntax that the engine has to offer.
+
+Some of the regex flavors are - PCRE (Perl Compatible Regular Expressions), POSIX, .NET, JavaScript etc. Many individual programming languages have become a regex flavor because of the differences in their regex engines. Python's regex is it's own flavor :). There are also exceptions to that, like PHP whose regex engine is a wrapper around PCRE, which is written in C.
+
+Regexes contain characters that have special meaning to them. Characters like `\` in `\d` shorthand character class are essential to the semantics of a regex. If we use them similar to the way we use strings(i.e enclosing them in double/single quotes) in python, they'll be treated as escape sequences. To use a backslash inside a string as a regex, we'll need to add two backslashes, `"\\d"`. A simpler solution is to use raw strings for regexes. In raw strings, the backslashes are not treated as a special character.
 
 So a regex in python may be written as - 
 ```
@@ -49,7 +53,9 @@ Their [documentation](https://docs.python.org/3/library/re.html) is pretty much 
 
 Here is a list of functions that you might use and examples of how they work.
 
-# TODO: Add examples here!
+TODO: Add examples here!
+
+## Important regex notations 
 
 
 
