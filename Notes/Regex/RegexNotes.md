@@ -1,7 +1,5 @@
 ## Regexes and Python
 
-Note: This is going to be about regexes in general and their usage in python. The text will be more regex heavy than python heavy.
-
 What are regular expressions? 
 
 Regular expressions are a concise way to describe a string or a group or strings. 
