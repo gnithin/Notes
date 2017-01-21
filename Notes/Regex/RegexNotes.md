@@ -431,7 +431,6 @@ Here are some really good resources which can help you out in your quest of beco
 - [Regex Crossword](https://regexcrossword.com/) - This is a game. Not really a resource but a great way to flex those regex muscles
 - I haven't read any books, generally because I am cheap and I find technical books containing such a lot of information, to a point that my head starts hurting :p. But one book that always kept coming up during anything I read about regexes was this - [Mastering Regular Expressions](http://shop.oreilly.com/product/9780596528126.do) by Jeffrey E.F. Friedl. Hopefully someday I'll read it :)
 
+Questions? Comments? Corrections? 
 
-Questions? Comments?
-
-Corrections? Please raise a PR :)
+Please raise a PR here or Tweet out to me [@kamehameha_dbz](https://twitter.com/kamehameha_dbz)
