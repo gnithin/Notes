@@ -44,7 +44,7 @@ Some of the regex flavors are - PCRE (Perl Compatible Regular Expressions), POSI
 Regexes contain characters that have special meaning to them. Characters like `\` in `\d` shorthand character class(which matches a digit) are essential to the semantics of a regex. If we use them similar to the way we use strings (i.e enclosing them in double/single quotes) in python, they'll be treated as escape sequences. To use a backslash inside a string as a regex, we'll need to add two backslashes, `"\\d"`. A simpler solution is to use raw strings for regexes. In raw strings, the backslashes are not treated as a special character.
 
 So a regex in python may be written as - 
-```
+```python
 regex = r'\d+'
 ```
 
@@ -89,7 +89,7 @@ Out[X]: 'he'
 
 `re.findall(pattern, string, flags=0)`
 
-This method basically finds all the non-overlapping matches in a string starting from left to right and returns a list of strings matches. When used with capturing groups, this returns a list of tuples.
+This method basically finds all the non-overlapping matches in a string starting from left to right and returns a list of strings matches. Be careful when using this with multiple capturing groups, this returns a list of tuples of .
 
 ```python
 In [X]: regex.findall(ip_str)
@@ -246,14 +246,75 @@ may hear the merry din.
 All of the above methods have an optional argument called flags. The `re` module has some flags which basically modifies how a regex engines searches for a match against a regex. For example, using `re.I` or `re.IGNORECASE` will make the regex matching process case-insensitive. You can refer to a list of all the flags from their [documentation](https://docs.python.org/3/library/re.html#re.A). You can use multiple flags in python by bitwise or-ing them.
 
 ## Grouping 
+Grouping is where you want to group a bunch of regex tokens into one logical unit. You usually want to do that when you need to specify an operation on the whole group (like a quantifier - `+`, `*` or `?`) or have a common functionality outside the group. For this purpose, you would basically use a non-capturing group denoted by `(?:)`.
 
-- The indices of the capturing groups are depth first. Even in that, the order is Root - Children(Starting from the left-most). [Example here](https://regex101.com/r/X7fCOF/2)
-<!--- If there is a combination of something like this - `(\w)+` the capturing group will only capture the last element and discard earlier ones. Make sure to use ((\w)+) if you need the whole thing. [Example here](https://regex101.com/r/1DFTOY/1)-->
+```python
+# We want to match "andaas", "patiees"
+
+# Without grouping of any kind, the regex is pretty hard to comprehend
+In [85]: re.findall(r'\w+a+s|\w+e+s', "andaas and patiees")
+Out[85]: ['andaas', 'patiees']
+
+# With grouping 
+In [87]: re.findall(r'\w+(?:a+|e+)s', "andaas and patees")
+Out[87]: ['andaas', 'patees']
+```
+
+Python has another type of grouping called capturing groups. These basically allow you to sub-group your regular expression.
+
+In a regex match suppose you want to fetch only a part of the match from the result.
+For example - 
+
+```python
+In [X]: ip_str = '''in [1] : print(x)
+    ...: out [1] : "Coming back to Life"
+    ...:
+    ...: in [2] : print(y)
+    ...: out [2] : "Spit out the bone"'''
+
+# Supposing we want to match the "out" string
+
+# The regex is just for representational purposes. I know it's not efficient.
+In [X]: re.findall(r'out.*?".*?"', ip_str)
+Out[X]: ['out [1] : "Coming back to Life"', 'out [2] : "Spit out the bone"']
+```
+Here if you just want the content inside the quotes, you would need to perform some operations in the output.
+Instead, a capturing group allows us to basically structure the output so that it's easier for us to fetch whatever we want.
+
+So the solution to the above was just changing the regex
+
+```python
+In [56]: re.findall(r'out.*?"(.*?)"', ip_str)
+Out[56]: ['Coming back to Life', 'Spit out the bone']
+```
+
+If you want both the results then - 
+
+```python
+In [62]: [m.group(0, 1) for m in re.finditer(r'out.*?"(.*?)"', ip_str)]
+Out[62]:
+[('out [1] : "Coming back to Life"', 'Coming back to Life'),
+ ('out [2] : "Spit out the bone"', 'Spit out the bone')]
+```
+
+If you want a generic solution to the above which includes every match and not manually adding `m.group(0, 1)`, then you need to fetch the number of groups a regex has, which can be found out once it's `compile`d. You can then use the [`groups`](https://docs.python.org/3/library/re.html#re.regex.groups) method on the compiled regex B).
+
+```python
+In [X]: regex = re.compile(r'out.*?"(.*?)"')
+
+In [X]: [m.group(*(range(regex.groups+1))) for m in regex.finditer(ip_str)]
+Out[X]:
+[('out [1] : "Coming back to Life"', 'Coming back to Life'),
+ ('out [2] : "Spit out the bone"', 'Spit out the bone')]
+```
+
+Some interesting information and notes on using capturing groups -
+- The indices of the capturing groups are depth first. Even in that, the order is Root, followed by the children (starting from the left-most). [Example here](https://regex101.com/r/X7fCOF/2)
+- If there is a quantifier outside the capturing group, like this - `([0-9])+` the capturing group will only contain the last matched element and discard earlier ones. This is called [Repeated Capturing Group](http://www.regular-expressions.info/captureall.html). It's common enough to warrant a mention :p Make sure to use `(\w+)` if you need the whole thing. [Example here](https://regex101.com/r/1DFTOY/1). You can even nest the existing capturing group if you want - `((\w)+)`
 
 ## Backtracking
 
 ## Greediness and Laziness
 
 ## Lookaround
-
-# Examples
+Do not think I'll have time for this. And this is fairly advanced. So chuck it. Remove it.
