@@ -7,7 +7,7 @@ They are a shorthand, and as shorthands go, they have their own syntax.
 
 A simple regex looks like this 
 ```
-Regex to match english letters both lower and uppercase
+Regex to match english letters in both, lower and uppercase
 
 Regex   -  [a-zA-Z]+
 String  -  "Apple"
@@ -35,9 +35,9 @@ Matches -  ['"wonderful text"']
 [Source](http://stackoverflow.com/a/22589854/1518924)
 
 ### Regexes in Python
-Regexes come in many flavors. By that, I mean regex engines. The regex engine is the piece of code that basically evaluates a string against a regex. There are differences in the various regex flavors. The ones that we, as people who use them, need to be concerned about are regarding the feature set and the syntax that the engine has to offer.
+Regexes come in many flavors. By that, I mean they have different regex engines. The regex engine is the piece of code that basically evaluates a string against a regex. There are many differences in the various regex flavors. The ones that we, as people who use them, need to be concerned about are regarding the feature set and the syntax that the engine has to offer.
 
-Some of the regex flavors are - PCRE (Perl Compatible Regular Expressions), POSIX, POSIX ERE,  .NET, JavaScript etc. Many individual programming languages have become a regex flavor of their own because of the differences in the implementation of their regex engines and what do and do not support. Python's regex is it's own flavor :). There are also exceptions to that, like PHP, whose regex engine is a wrapper around PCRE, which is written in C.
+Some of the regex flavors are - PCRE (Perl Compatible Regular Expressions), POSIX, POSIX ERE, .NET, JavaScript etc. Many individual programming languages have become a regex flavor of their own because of the differences in the implementation of their regex engines and what they do and do not support. Python's regex is it's own flavor :). There are also exceptions to that, like PHP, whose regex engine is a wrapper around PCRE, which is written in C.
 
 Regexes contain characters that have special meaning to them. Characters like `\` in `\d` shorthand character class(which matches a digit) are essential to the semantics of a regex. If we use them similar to the way we use strings (i.e enclosing them in double/single quotes) in python, they'll be treated as escape sequences. To use a backslash inside a string as a regex, we'll need to add two backslashes, `"\\d"`. A simpler solution is to use raw strings for regexes. In raw strings, the backslashes are not treated as a special character.
 
@@ -47,7 +47,7 @@ regex = r'\d+'
 ```
 
 In python, the `re` module exposes methods which are useful in processing strings using regexes.
-Their [documentation](https://docs.python.org/3/library/re.html) is pretty much straight-forward and enlists the what the module can do.
+Their [documentation](https://docs.python.org/3/library/re.html) is pretty much straight-forward and enlists what the module can do.
 
 Here is a list of functions that I commonly use. Refer to the [documentation](https://docs.python.org/3/library/re.html) here for more methods that `re` supports.
 
@@ -55,7 +55,7 @@ Here is a list of functions that I commonly use. Refer to the [documentation](ht
 
 `re.search(pattern, string, flags=0)`
 
-It searches the input string for the first location of the a match against a regex. It stops after that. It returns a `match` object which basically stores information about the current match. You can fetch useful information like starting or ending index of the match, fetch part of the match corresponding to the capturing group by calling the appropriate `match` methods. You can read more about `match` [here](https://docs.python.org/3/library/re.html#match-objects)
+It searches the input string for the first location of a match against a regex. It stops after that. It returns a `match` object which basically stores information about the current match. You can fetch useful information like the starting or ending index of the match, fetch part of the match corresponding to the capturing group by calling the appropriate `match` methods. You can read more about `match` [here](https://docs.python.org/3/library/re.html#match-objects)
 
 ```python
 In [X]: import re
@@ -69,12 +69,6 @@ In [X]: ip_str = '''It is an ancient Mariner,
    ...: The guests are met, the feast is set:
    ...: May'st hear the merry din.'''
 
-# You can use compile if you think the regex is going to be used again.
-# It's more efficient that way since everytime you need to match something against a regex, 
-# a Regular Expression object will be created. 
-# Note that even without using compile, re module caches the last used regex anyway, so creating them
-# repeatedly should be fine I guess :) 
-# Source: - http://stackoverflow.com/a/452143/1518924
 In [X]: regex = re.compile(r'\b[a-zA-Z]+e\b')
 
 In [X]: match_obj = regex.search(ip_str)
@@ -82,12 +76,18 @@ In [X]: match_obj = regex.search(ip_str)
 In [X]: match_obj.group()
 Out[X]: 'he'
 ```
+You can use compile if you think the regex is going to be used again.
+It's more efficient that way since everytime you need to match something against a regex, 
+a Regular Expression object will be created. 
+
+Note that even without using compile, `re` module caches the last used regex anyway, so creating them repeatedly should be fine I guess :) 
+[Source](http://stackoverflow.com/a/452143/1518924)
 
 #### Findall
 
 `re.findall(pattern, string, flags=0)`
 
-This method basically finds all the non-overlapping matches in a string starting from left to right and returns a list of strings matches. Be careful when using this with multiple capturing groups, this returns a list of tuples of .
+This method basically finds all the non-overlapping matches in a string starting from left to right and returns a list of strings matched. Be careful when using this with multiple capturing groups, where it returns a list of tuples of the captured groups.
 
 ```python
 In [X]: regex.findall(ip_str)
@@ -111,7 +111,7 @@ Out[X]:
 
 `re.finditer(pattern, string, flags=0)`
 
-If your regex is really complicated or if your string is really long or your requirments involving checking every string as they  matched one by one, then `finditer` is a good substitute for `findall`. It basically returns just an iterator which can be called repeatedly until the all the matches are exhausted. Using this is usually a lot more prudent when you need to save time or debug :)
+If your regex is really complicated or if your string is really long or your requirements involve checking every string as they're matched one by one, then `finditer` is a good substitute for `findall`. It basically returns just an iterator, which can be called repeatedly until all the matches are exhausted. Using this is usually a lot more prudent when you need to save time or debug :)
 
 ```python
 # It just returns an iterator
@@ -181,8 +181,10 @@ May
 st hear the merry din
 ```
 
-Since you are using a regex to split, sometimes you will need the split string to also be produced in the output.
-Using [capturing groups](TODO: Link to capturing groups), enables that. The splitting string is found between the matches. In case a splitting string is matched at the beginning of the input string, an empty string is the first element in the output. Moral of the story: Always sanitize your split outputs else you will have hell to pay :p
+Since you are using a regex to split, sometimes you will need the split-string(by that, I mean the pattern that is used to split) to also be produced in the output.
+Using capturing groups, enables that. The splitting string is found between the matches. In case a splitting string is matched at the beginning of the input string, an empty string is the first element in the output.
+
+Moral of the story: Always sanitize your split outputs else you will have hell to pay :p
 
 Here's a simple example that demonstrates that - 
 
@@ -198,8 +200,7 @@ Out[X]: ['abcd', '123', 'efgh', '456', 'ijkl']
 
 `re.sub(pattern, repl, string, count=0, flags=0)`
 
-
-This method is used for finding a string matching a regex and then substituting it.
+This method is used for finding a string that matches a regex and then substituting it.
 
 ```python
 In [X]: print(re.sub(r'thy', "your", ip_str))
@@ -214,7 +215,7 @@ The guests are met, the feast is set:
 May'st hear the merry din.
 ```
 
-The `sub` method also has this nice feature where instead of using the replacement string, you can pass a callback method that accepts a `match` object and will return a replacement string. This is useful when you want to perform some kind of logic.
+The `sub` method also has this nice feature where instead of using the replacement string, you can pass a callback method that accepts a `match` object, which will return a replacement string. This is useful when you want to perform some kind of logic-based replacement.
 
 ```python
 # This is basically replacing all the archaic pronouns into modern ones
@@ -241,7 +242,7 @@ The guests are met, the feast is set:
 may hear the merry din.
 ```
 
-All of the above methods have an optional argument called flags. The `re` module has some flags which basically modifies how a regex engines searches for a match against a regex. For example, using `re.I` or `re.IGNORECASE` will make the regex matching process case-insensitive. You can refer to a list of all the flags from their [documentation](https://docs.python.org/3/library/re.html#re.A). You can use multiple flags in python by bitwise or-ing them.
+All of the above methods have an optional argument called flags. The `re` module has some flags which basically modifies how a regex engines searches for a match against a regex pattern. For example, using `re.I` or `re.IGNORECASE` will make the regex matching process case-insensitive. You can refer to a list of all the flags from their [documentation](https://docs.python.org/3/library/re.html#re.A). You can use multiple flags in python by bitwise OR-ing them.
 
 ### Grouping 
 Grouping is where you want to group a bunch of regex tokens into one logical unit. You usually want to do that when you need to specify an operation on the whole group (like a quantifier - `+`, `*` or `?`) or have a common functionality outside the group. For this purpose, you would basically use a non-capturing group denoted by `(?:)`.
@@ -250,8 +251,8 @@ Grouping is where you want to group a bunch of regex tokens into one logical uni
 # We want to match "andaas", "patiees"
 
 # Without grouping of any kind, the regex is pretty hard to comprehend
-In [X]: re.findall(r'\w+a+s|\w+e+s', "andaas and patiees")
-Out[X]: ['andaas', 'patiees']
+In [X]: re.findall(r'\w+a+s|\w+e+s', "andaas and patees")
+Out[X]: ['andaas', 'patees']
 
 # With grouping 
 In [X]: re.findall(r'\w+(?:a+|e+)s', "andaas and patees")
@@ -286,7 +287,7 @@ In [X]: re.findall(r'out.*?"(.*?)"', ip_str)
 Out[X]: ['Coming back to Life', 'Spit out the bone']
 ```
 
-If you want both the results then - 
+If you want both the results then you need to use the `group` method of the `match` object.
 
 ```python
 In [X]: [m.group(0, 1) for m in re.finditer(r'out.*?"(.*?)"', ip_str)]
@@ -316,8 +317,9 @@ There are basically [two types of regex engines](https://www.calvin.edu/~rpruim/
 )
 - Text Driven
   - It uses DFA internally. 
-  - It's execution is driven by the input string. It has to consider all possible permutations while constructing the DFA from the regex, which is traditionally done like this - Regex -> NFA -> DFA
-  - It's faster in the sense that there's no backtracking, but, it has more states than an NFA-based regex. It's much more efficient to find a match in this. It cannot support backreferences and lookarounds.
+  - It's execution is driven by the input string. It has to consider all possible permutations while constructing the DFA, which is traditionally done like this - Regex -> NFA -> DFA
+  - It's faster in the sense that there's no backtracking, but, it has more states than an NFA-based regex. It's much more efficient to find a match in this.
+  - It cannot support features like backreferences and lookarounds.
   - MySQL, egrep(old)
 
 - Regex Driven - 
@@ -326,7 +328,7 @@ There are basically [two types of regex engines](https://www.calvin.edu/~rpruim/
   - It's considered to be slower than DFA and the performance basically depends on how the regex string is constructed and the path chosen if there are multiple paths.
   - Python, PCRE
 
-Currently there are also hybrids that basically takes the best of both worlds. egrep is one example. Even the so called slower NFA engines are highly optimized and perform staggeringly well.
+Currently there are also hybrids that basically takes the best of both worlds. egrep is one example. That being said, even the so called slower NFA engines are highly optimized and perform staggeringly well for complex inputs.
 
 So let's understand how backtracking basically works.
 Alternations are the simplest examples of how backtracking can work. Assume a regex that has alternation - `a(?:b|c)d`. Clearly, input strings `abd` and `acd` are matches to this regex.
@@ -353,10 +355,10 @@ There are different types of quantifiers.
   - This allows the token preceding it to repeat itself 1 or more times.
 - Limiting Quantifiers - `{m, n}`
   - This allows the token preceding it to repeat itself atleast `m` times to atmost `n`.
-  - If `n` omitted, then it can match as many times as it wants, after atlease matching `m` times.
+  - If `n` omitted, then it can match as many times as it wants, after atleast matching `m` times.
   
 #### Greediness
-Greediness is a characteristic of a regex engine to aggresively match the quantifier as many times as it is possible. All the quantifiers specified above are greedy by default.
+Greediness is a characteristic of a regex engine to aggresively match tokens for a quantifier, as many times as it is possible. All the quantifiers specified above are greedy by default.
 
 Here is an example that can better explain how greediness works in regexes.
 ```python
@@ -427,4 +429,9 @@ Here are some really good resources which can help you out in your quest of beco
 - [regular-expressions.info](http://www.regular-expressions.info/) - It's a really good resource which describes probably everything that's got to do with regexes across different languages.
 - [rexegg](http://www.rexegg.com/) - Another good resource.
 - [Regex Crossword](https://regexcrossword.com/) - This is a game. Not really a resource but a great way to flex those regex muscles
-- I haven't read any books, generally because I am cheap and I find technical books containing a lot of information to the point that my brain starts overheating :p. But one book that always kept coming up during anything I read about regexes was this - [Mastering Regular Expressions,](http://shop.oreilly.com/product/9780596528126.do) by Jeffrey E.F. Friedl. Hopefully someday I'll read it :)
+- I haven't read any books, generally because I am cheap and I find technical books containing such a lot of information, to a point that my head starts hurting :p. But one book that always kept coming up during anything I read about regexes was this - [Mastering Regular Expressions](http://shop.oreilly.com/product/9780596528126.do) by Jeffrey E.F. Friedl. Hopefully someday I'll read it :)
+
+
+Questions? Comments?
+
+Corrections? Please raise a PR :)
