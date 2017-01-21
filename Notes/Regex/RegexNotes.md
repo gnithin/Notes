@@ -54,6 +54,9 @@ Their [documentation](https://docs.python.org/3/library/re.html) is pretty much 
 Here is a list of functions that I commonly use. Refer to the [documentation](https://docs.python.org/3/library/re.html) here for more methods that `re` supports.
 
 #### Search
+
+`re.search(pattern, string, flags=0)`
+
 It searches the input string for the first location of the a match against a regex. It stops after that. It returns a `match` object which basically stores information about the current match. You can fetch useful information like starting or ending index of the match, fetch part of the match corresponding to the capturing group by calling the appropriate `match` methods. You can read more about `match` [here](https://docs.python.org/3/library/re.html#match-objects)
 
 ```python
@@ -83,6 +86,9 @@ Out[X]: 'he'
 ```
 
 #### Findall
+
+`re.findall(pattern, string, flags=0)`
+
 This method basically finds all the non-overlapping matches in a string starting from left to right and returns a list of strings matches. When used with capturing groups, this returns a list of tuples.
 
 ```python
@@ -104,6 +110,9 @@ Out[X]:
 ```
 
 #### Finditer
+
+`re.finditer(pattern, string, flags=0)`
+
 If your regex is really complicated or if your string is really long or your requirments involving checking every string as they  matched one by one, then `finditer` is a good substitute for `findall`. It basically returns just an iterator which can be called repeatedly until the all the matches are exhausted. Using this is usually a lot more prudent when you need to save time or debug :)
 
 ```python
@@ -127,6 +136,9 @@ Out[X]:
 ```
 
 #### Split
+
+`re.split(pattern, string, maxsplit=0, flags=0)`
+
 This method is used to split the string based on a regex. It returns a list of strings just like how a string split would work.
 
 ```python
@@ -185,6 +197,10 @@ Out[X]: ['abcd', '123', 'efgh', '456', 'ijkl']
 ```
 
 #### Sub 
+
+`re.sub(pattern, repl, string, count=0, flags=0)`
+
+
 This method is used for finding a string matching a regex and then substituting it.
 
 ```python
