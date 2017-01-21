@@ -245,7 +245,7 @@ may hear the merry din.
 
 All of the above methods have an optional argument called flags. The `re` module has some flags which basically modifies how a regex engines searches for a match against a regex. For example, using `re.I` or `re.IGNORECASE` will make the regex matching process case-insensitive. You can refer to a list of all the flags from their [documentation](https://docs.python.org/3/library/re.html#re.A). You can use multiple flags in python by bitwise or-ing them.
 
-## Grouping 
+### Grouping 
 Grouping is where you want to group a bunch of regex tokens into one logical unit. You usually want to do that when you need to specify an operation on the whole group (like a quantifier - `+`, `*` or `?`) or have a common functionality outside the group. For this purpose, you would basically use a non-capturing group denoted by `(?:)`.
 
 ```python
@@ -312,7 +312,7 @@ Some interesting information and notes on using capturing groups -
 - The indices of the capturing groups are depth first. Even in that, the order is Root, followed by the children (starting from the left-most). [Example here](https://regex101.com/r/X7fCOF/2)
 - If there is a quantifier outside the capturing group, like this - `([0-9])+` the capturing group will only contain the last matched element and discard earlier ones. This is called [Repeated Capturing Group](http://www.regular-expressions.info/captureall.html). It's common enough to warrant a mention :p Make sure to use `(\w+)` if you need the whole thing. [Example here](https://regex101.com/r/1DFTOY/1). You can even nest the existing capturing group if you want - `((\w)+)`
 
-## Backtracking
+### Backtracking
 
 There are basically [two types of regex engines](https://www.calvin.edu/~rpruim/courses/c260/resources/regex/regex.shtml
 )
@@ -331,12 +331,85 @@ There are basically [two types of regex engines](https://www.calvin.edu/~rpruim/
 Currently there are also hybrids that basically takes the best of both worlds. egrep is one example. Even the so called slower NFA engines are highly optimized and perform staggeringly well.
 
 So let's understand how backtracking basically works.
-Assume a regex that has alternation - `a(?:b|c)d`. Clearly, input strings `abd` and `acd` are matches to this regex.
+Alternations are the simplest examples of how backtracking can work. Assume a regex that has alternation - `a(?:b|c)d`. Clearly, input strings `abd` and `acd` are matches to this regex.
 Let's understand how it exactly matches the string `acd`.
 Here's a demo of how that works  - 
 
-![backtracking](../../assets/backtracking.png)
+![backtracking](../../assets/Regex/backtracking.png)
+You can see the above in action [here](https://regex101.com/r/JgTaBE/1)
 
+When the control is basically at the b position in `a(?:b|c)d`, the regex fails to match the string. But since, it's an alternation, it backtracks and matches the input string to c, and subsequently to d.
 
-## Greediness and Laziness
+### Greediness and Laziness
+Before we get into greediness and laziness, let's understand a few basic things about quantifiers.
 
+Quantifiers are values in regexes that specify the number of times that the token preceding it, can repeat. This feature is primarily responsible for the succinctness of regular expressions, allowing to express really complex constructs in a simple way.
+
+There are different types of quantifiers.
+- Conditional - `?`
+  - This allows the token preceding it to repeat itself 0 or 1 times. This makes the preceding token optional.
+- Star - `*`
+  - This allows the token preceding it to repeat itself 0 or more times.
+- Plus - `+`
+  - This allows the token preceding it to repeat itself 1 or more times.
+- Limiting Quantifiers - `{m, n}`
+  - This allows the token preceding it to repeat itself atleast `m` times to atmost `n`.
+  - If `n` omitted, then it can match as many times as it wants, after atlease matching `m` times.
+  
+#### Greediness
+Greediness is a characteristic of a regex engine to aggresively match the quantifier as many times as it is possible. All the quantifiers specified above are greedy by default.
+
+Here is an example that can better explain how greediness works in regexes.
+```python
+In [91]: ip_str = "<Text>Content Inside TextView</Text>"
+
+In [92]: re.findall(r'<.+>', ip_str)
+Out[92]: ['<Text>Content Inside TextView</Text>']
+```
+
+I was intending to match only "<Text>", but regex `<.+>`, has the `+` quantifier which is greedy by default. So it will match the whole string(since `.` matches everything) and backtrack backwards until the next token is found.
+
+Here is a pictoral representation of what this means - 
+
+![greedy](../../assets/Regex/greedy.png)
+
+Here is a [demonstration](https://regex101.com/r/ShRp4g/1) of that.
+
+#### Laziness
+Laziness, as you may have guessed, tries to match the input string, as less times as possible, that the quantifier can support. A quantifier can be made lazy by adding a `?` after it. 
+
+Here is the output from the same example as mentioned above.
+
+```python
+In [91]: ip_str = "<Text>Content Inside TextView</Text>"
+
+In [94]: re.findall(r'<.+?>', ip_str)
+Out[94]: ['<Text>', '</Text>']
+```
+
+So, just by using `.+?`, we were able to get the match that we want. Here is a detailed representation of how the match is being made - 
+
+![lazy](../../assets/Regex/lazy.png)
+
+Here is a [demo](https://regex101.com/r/ShRp4g/2) of that in action.
+
+Here the `.+?` operator initially matches only 1 element, which is the `T` of the `<Text>`. From then onwards it tries to match `>`. If it fails, it backtracks to the next position(Yes, I realize what I've written) till it finds `>`.
+
+### Horror stories
+Although it might seem like the engines are advanced and optimized, in the end it all comes down to how the regex was framed and what input was given.
+
+Using the right type of quantifier(lazy vs greedy) can be especially tricky. If you understood the definitions above, you might've realized that the size of the input string has a huge bearing on the way greedy and lazy backtracking work. 
+
+If the regular expression is convoluted enough, it can lead to something that's called [catastrophic backtracking](http://www.rexegg.com/regex-explosive-quantifiers.html). This usually occurs on regex failures, where the regex engine backtracks many times to match the input string. It's usually because of a mix of multiple quantifiers.
+
+Here is a simple example of `^(A+)*B` matching against the string `AAAAAAAAAC`.
+The regex101's [demo](https://regex101.com/r/ShRp4g/3) halts after sometime :)
+
+Their debugger explains a lot - 
+![catastrophic backtracking](../../assets/Regex/catastrophic_backtracking.png)
+
+This is a [better example](http://stackoverflow.com/a/22235225/1518924) where catastrophic backtracking is the first thing that should be considered :) 
+
+The solution to this is using possesive quantifiers. It's basically similar to lazy quantifiers but instead of adding a `?`, one adds a `+`. It basically prevents the preceding token to be backtracked again. Therefore, that token will never be traversed more than once. Sadly, at this point, `re` does not support it :(
+
+Improper regexes can be notorious, and can lead to disastrous results. Here is an example of a [stackoverflow downtime](http://stackstatus.net/post/147710624694/outage-postmortem-july-20-2016) that happened on july 2016, caused by a freakish user input (lesson: All user inputs are freakish user inputs :p ) which brought down the server for sometime.
