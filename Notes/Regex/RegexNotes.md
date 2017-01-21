@@ -421,3 +421,12 @@ This is a [better example](http://stackoverflow.com/a/22235225/1518924) where ca
 The solution to this is using possesive quantifiers. It's basically similar to lazy quantifiers but instead of adding a `?`, one adds a `+`. It basically prevents the preceding token to be backtracked again. Therefore, that token will never be traversed more than once. Sadly, at this point, `re` does not support it :(
 
 Improper regexes can be notorious, and can lead to disastrous results. Here is an example of a [stackoverflow downtime](http://stackstatus.net/post/147710624694/outage-postmortem-july-20-2016) that happened on july 2016, caused by a freakish user input (lesson: All user inputs are freakish user inputs :p ) which brought down the server for sometime.
+
+
+### Resources I'd recommend
+Here are some really good resources which can help you out in your quest of becoming a regex ninja or to generally get on with your programming career :p  
+- [The stackoverflow regex tag](https://stackoverflow.com/questions/tagged/regex) - It's not a resource, but answering questions here, or generally reading up on the top answers are good. There are people who are phenomenal in their answers and in-depth explantions, which are as good as resources can be. 
+- [regular-expressions.info](http://www.regular-expressions.info/) - It's a really good resource which describes probably everything that's got to do with regexes across different languages.
+- [rexegg](http://www.rexegg.com/) - Another good resource.
+- [Regex Crossword](https://regexcrossword.com/) - This is a game. Not really a resource but a great way to flex those regex muscles
+- I haven't read any books, generally because I am cheap and I find technical books containing a lot of information to the point that my brain starts overheating :p. But one book that always kept coming up during anything I read about regexes was this - [Mastering Regular Expressions,](http://shop.oreilly.com/product/9780596528126.do) by Jeffrey E.F. Friedl. Hopefully someday I'll read it :)
