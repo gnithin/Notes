@@ -420,8 +420,7 @@ This is a [better example](http://stackoverflow.com/a/22235225/1518924) where ca
 
 The solution to this is using possesive quantifiers. It's basically similar to lazy quantifiers but instead of adding a `?`, one adds a `+`. It basically prevents the preceding token to be backtracked again. Therefore, that token will never be traversed more than once. Sadly, at this point, `re` does not support it :(
 
-Improper regexes can be notorious, and can lead to disastrous results. Here is an example of a [stackoverflow downtime](http://stackstatus.net/post/147710624694/outage-postmortem-july-20-2016) that happened on july 2016, caused by a freakish user input (lesson: All user inputs are freakish user inputs :p ) which brought down the server for sometime.
-
+Improper regexes can be notorious, and can lead to disastrous results. Here is an example of a [stackoverflow downtime](http://stackstatus.net/post/147710624694/outage-postmortem-july-20-2016) that happened on july 2016, caused by a freakish user input (lesson: All user inputs are freakish user inputs :p ) which brought down the server for sometime. It was due to catastrophic backtracking by a very trivial looking regex - `^[\s\u200c]+|[\s\u200c]+$` of which only the second half of the alternation was responsible.
 
 ### Resources I'd recommend
 Here are some really good resources which can help you out in your quest of becoming a regex ninja or to generally get on with your programming career :p  
