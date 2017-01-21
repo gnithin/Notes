@@ -320,7 +320,7 @@ There are basically [two types of regex engines](https://www.calvin.edu/~rpruim/
   - It's execution is driven by the input string. It has to consider all possible permutations while constructing the DFA, which is traditionally done like this - Regex -> NFA -> DFA
   - It's faster in the sense that there's no backtracking, but, it has more states than an NFA-based regex. It's much more efficient to find a match in this.
   - It cannot support features like backreferences and lookarounds.
-  - MySQL, egrep(old)
+  - MySQL, egrep(old), [RE2](https://github.com/google/re2) library by google
 
 - Regex Driven - 
   - It uses NFA internally. 
@@ -412,15 +412,15 @@ The regex101's [demo](https://regex101.com/r/ShRp4g/3) halts after sometime :)
 
 Their debugger explains a lot - 
 
-
 ![catastrophic backtracking](../../assets/Regex/catastrophic_backtracking.png)
-
 
 This is a [better example](http://stackoverflow.com/a/22235225/1518924) where catastrophic backtracking is the first thing that should be considered :) 
 
 The solution to this is using possesive quantifiers. It's basically similar to lazy quantifiers but instead of adding a `?`, one adds a `+`. It basically prevents the preceding token to be backtracked again. Therefore, that token will never be traversed more than once. Sadly, at this point, `re` does not support it :(
 
-Improper regexes can be notorious, and can lead to disastrous results. Here is an example of a [stackoverflow downtime](http://stackstatus.net/post/147710624694/outage-postmortem-july-20-2016) that happened on july 2016, caused by a freakish user input (lesson: All user inputs are freakish user inputs :p ) which brought down the server for sometime. It was due to catastrophic backtracking by a very trivial looking regex - `^[\s\u200c]+|[\s\u200c]+$` of which only the second half of the alternation was responsible.
+Improper regexes can be notorious, and can lead to disastrous results. 
+- Here is an example of a [stackoverflow downtime](http://stackstatus.net/post/147710624694/outage-postmortem-july-20-2016) that happened on july 2016, caused by a freakish user input (lesson: All user inputs are freakish user inputs :p ) which brought down the server for sometime. It was due to catastrophic backtracking by a very trivial looking regex - `^[\s\u200c]+|[\s\u200c]+$` of which only the second half of the alternation was responsible.
+- Another [example](http://www.benfrederickson.com/python-catastrophic-regular-expressions-and-the-gil/) of server downtime because of catastrophic backtracking. The culprit over here is something akin to `(a+)+b`. The problem seems to compound in the case of python, where if this happens in a multi-threaded environment, due to GIL, the re module can keep backtracking :p. 
 
 ### Resources I'd recommend
 Here are some really good resources which can help you out in your quest of becoming a regex ninja or to generally get on with your programming career :p  
