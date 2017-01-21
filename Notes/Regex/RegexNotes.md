@@ -252,12 +252,12 @@ Grouping is where you want to group a bunch of regex tokens into one logical uni
 # We want to match "andaas", "patiees"
 
 # Without grouping of any kind, the regex is pretty hard to comprehend
-In [85]: re.findall(r'\w+a+s|\w+e+s', "andaas and patiees")
-Out[85]: ['andaas', 'patiees']
+In [X]: re.findall(r'\w+a+s|\w+e+s', "andaas and patiees")
+Out[X]: ['andaas', 'patiees']
 
 # With grouping 
-In [87]: re.findall(r'\w+(?:a+|e+)s', "andaas and patees")
-Out[87]: ['andaas', 'patees']
+In [X]: re.findall(r'\w+(?:a+|e+)s', "andaas and patees")
+Out[X]: ['andaas', 'patees']
 ```
 
 Python has another type of grouping called capturing groups. These basically allow you to sub-group your regular expression.
@@ -284,15 +284,15 @@ Instead, a capturing group allows us to basically structure the output so that i
 So the solution to the above was just changing the regex
 
 ```python
-In [56]: re.findall(r'out.*?"(.*?)"', ip_str)
-Out[56]: ['Coming back to Life', 'Spit out the bone']
+In [X]: re.findall(r'out.*?"(.*?)"', ip_str)
+Out[X]: ['Coming back to Life', 'Spit out the bone']
 ```
 
 If you want both the results then - 
 
 ```python
-In [62]: [m.group(0, 1) for m in re.finditer(r'out.*?"(.*?)"', ip_str)]
-Out[62]:
+In [X]: [m.group(0, 1) for m in re.finditer(r'out.*?"(.*?)"', ip_str)]
+Out[X]:
 [('out [1] : "Coming back to Life"', 'Coming back to Life'),
  ('out [2] : "Spit out the bone"', 'Spit out the bone')]
 ```
@@ -336,6 +336,7 @@ Let's understand how it exactly matches the string `acd`.
 Here's a demo of how that works  - 
 
 ![backtracking](../../assets/Regex/backtracking.png)
+
 You can see the above in action [here](https://regex101.com/r/JgTaBE/1)
 
 When the control is basically at the b position in `a(?:b|c)d`, the regex fails to match the string. But since, it's an alternation, it backtracks and matches the input string to c, and subsequently to d.
@@ -361,17 +362,19 @@ Greediness is a characteristic of a regex engine to aggresively match the quanti
 
 Here is an example that can better explain how greediness works in regexes.
 ```python
-In [91]: ip_str = "<Text>Content Inside TextView</Text>"
+In [X]: ip_str = "<Text>Content Inside TextView</Text>"
 
-In [92]: re.findall(r'<.+>', ip_str)
-Out[92]: ['<Text>Content Inside TextView</Text>']
+In [X]: re.findall(r'<.+>', ip_str)
+Out[X]: ['<Text>Content Inside TextView</Text>']
 ```
 
 I was intending to match only "<Text>", but regex `<.+>`, has the `+` quantifier which is greedy by default. So it will match the whole string(since `.` matches everything) and backtrack backwards until the next token is found.
 
 Here is a pictoral representation of what this means - 
 
+
 ![greedy](../../assets/Regex/greedy.png)
+
 
 Here is a [demonstration](https://regex101.com/r/ShRp4g/1) of that.
 
@@ -381,15 +384,17 @@ Laziness, as you may have guessed, tries to match the input string, as less time
 Here is the output from the same example as mentioned above.
 
 ```python
-In [91]: ip_str = "<Text>Content Inside TextView</Text>"
+In [X]: ip_str = "<Text>Content Inside TextView</Text>"
 
-In [94]: re.findall(r'<.+?>', ip_str)
-Out[94]: ['<Text>', '</Text>']
+In [X]: re.findall(r'<.+?>', ip_str)
+Out[X]: ['<Text>', '</Text>']
 ```
 
 So, just by using `.+?`, we were able to get the match that we want. Here is a detailed representation of how the match is being made - 
 
+
 ![lazy](../../assets/Regex/lazy.png)
+
 
 Here is a [demo](https://regex101.com/r/ShRp4g/2) of that in action.
 
@@ -406,7 +411,10 @@ Here is a simple example of `^(A+)*B` matching against the string `AAAAAAAAAC`.
 The regex101's [demo](https://regex101.com/r/ShRp4g/3) halts after sometime :)
 
 Their debugger explains a lot - 
+
+
 ![catastrophic backtracking](../../assets/Regex/catastrophic_backtracking.png)
+
 
 This is a [better example](http://stackoverflow.com/a/22235225/1518924) where catastrophic backtracking is the first thing that should be considered :) 
 
