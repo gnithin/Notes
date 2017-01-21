@@ -427,6 +427,7 @@ Improper regexes can be notorious, and can lead to disastrous results. Here is a
 Here are some really good resources which can help you out in your quest of becoming a regex ninja or to generally get on with your programming career :p  
 - [The stackoverflow regex tag](https://stackoverflow.com/questions/tagged/regex) - It's not a resource, but answering questions here, or generally reading up on the top answers are good. There are people who are phenomenal in their answers and in-depth explantions, which are as good as resources can be. 
 - [regular-expressions.info](http://www.regular-expressions.info/) - It's a really good resource which describes probably everything that's got to do with regexes across different languages.
+- [Regex101](https://regex101.com/) - This is basically a playground. It's helpful as a quick reference from time to time.
 - [rexegg](http://www.rexegg.com/) - Another good resource.
 - [Regex Crossword](https://regexcrossword.com/) - This is a game. Not really a resource but a great way to flex those regex muscles
 - I haven't read any books, generally because I am cheap and I find technical books containing such a lot of information, to a point that my head starts hurting :p. But one book that always kept coming up during anything I read about regexes was this - [Mastering Regular Expressions](http://shop.oreilly.com/product/9780596528126.do) by Jeffrey E.F. Friedl. Hopefully someday I'll read it :)
