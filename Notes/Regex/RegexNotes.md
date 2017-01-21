@@ -39,7 +39,7 @@ Matches -  ['"wonderful text"']
 ### Regexes in Python
 Regexes come in many flavors. By that, I mean regex engines. The regex engine is the piece of code that basically evaluates a string against a regex. There are differences in the various regex flavors. The ones that we, as people who use them, need to be concerned about are regarding the feature set and the syntax that the engine has to offer.
 
-Some of the regex flavors are - PCRE (Perl Compatible Regular Expressions), POSIX, .NET, JavaScript etc. Many individual programming languages have become a regex flavor of their own because of the differences in the implementation of their regex engines and what do and do not support. Python's regex is it's own flavor :). There are also exceptions to that, like PHP, whose regex engine is a wrapper around PCRE, which is written in C.
+Some of the regex flavors are - PCRE (Perl Compatible Regular Expressions), POSIX, POSIX ERE,  .NET, JavaScript etc. Many individual programming languages have become a regex flavor of their own because of the differences in the implementation of their regex engines and what do and do not support. Python's regex is it's own flavor :). There are also exceptions to that, like PHP, whose regex engine is a wrapper around PCRE, which is written in C.
 
 Regexes contain characters that have special meaning to them. Characters like `\` in `\d` shorthand character class(which matches a digit) are essential to the semantics of a regex. If we use them similar to the way we use strings (i.e enclosing them in double/single quotes) in python, they'll be treated as escape sequences. To use a backslash inside a string as a regex, we'll need to add two backslashes, `"\\d"`. A simpler solution is to use raw strings for regexes. In raw strings, the backslashes are not treated as a special character.
 
@@ -314,7 +314,29 @@ Some interesting information and notes on using capturing groups -
 
 ## Backtracking
 
+There are basically [two types of regex engines](https://www.calvin.edu/~rpruim/courses/c260/resources/regex/regex.shtml
+)
+- Text Driven
+  - It uses DFA internally. 
+  - It's execution is driven by the input string. It has to consider all possible permutations while constructing the DFA from the regex, which is traditionally done like this - Regex -> NFA -> DFA
+  - It's faster in the sense that there's no backtracking, but, it has more states than an NFA-based regex. It's much more efficient to find a match in this. It cannot support backreferences and lookarounds.
+  - MySQL, egrep(old)
+
+- Regex Driven - 
+  - It uses NFA internally. 
+  - It's execution is driven by the regex string.
+  - It's considered to be slower than DFA and the performance basically depends on how the regex string is constructed and the path chosen if there are multiple paths.
+  - Python, PCRE
+
+Currently there are also hybrids that basically takes the best of both worlds. egrep is one example. Even the so called slower NFA engines are highly optimized and perform staggeringly well.
+
+So let's understand how backtracking basically works.
+Assume a regex that has alternation - `a(?:b|c)d`. Clearly, input strings `abd` and `acd` are matches to this regex.
+Let's understand how it exactly matches the string `acd`.
+Here's a demo of how that works  - 
+
+![backtracking](../../assets/backtracking.png)
+
+
 ## Greediness and Laziness
 
-## Lookaround
-Do not think I'll have time for this. And this is fairly advanced. So chuck it. Remove it.
