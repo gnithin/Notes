@@ -405,6 +405,7 @@ Although it might seem like the engines are advanced and optimized, in the end i
 
 Using the right type of quantifier(lazy vs greedy) can be especially tricky. If you understood the definitions above, you might've realized that the size of the input string has a huge bearing on the way greedy and lazy backtracking work. 
 
+####  Catastrophic Backtracking
 If the regular expression is convoluted enough, it can lead to something that's called [catastrophic backtracking](http://www.rexegg.com/regex-explosive-quantifiers.html). This usually occurs on regex failures, where the regex engine backtracks many times to match the input string. It's usually because of a mix of multiple quantifiers.
 
 Here is a simple example of `^(A+)*B` matching against the string `AAAAAAAAAC`.
@@ -414,10 +415,24 @@ Their debugger explains a lot -
 
 ![catastrophic backtracking](../../assets/Regex/catastrophic_backtracking.png)
 
+You can even see that when running this is in a python interpreter, like ipython - 
+
+```python
+In [X]: %time re.findall("^(A+)*B", "AAAAAAAAAAAAAAAAAAAAAAAAAC")
+CPU times: user 2.18 s, sys: 4.36 ms, total: 2.18 s
+Wall time: 2.18 s
+Out[X]: []
+```
+Notice that it stops after 2 secs.
+
 This is a [better example](http://stackoverflow.com/a/22235225/1518924) where catastrophic backtracking is the first thing that should be considered :) 
 
-The solution to this is using possesive quantifiers. It's basically similar to lazy quantifiers but instead of adding a `?`, one adds a `+`. It basically prevents the preceding token to be backtracked again. Therefore, that token will never be traversed more than once. Sadly, at this point, `re` does not support it :(
+The solution to this is using possesive quantifiers. It's basically similar to lazy quantifiers but instead of adding a `?`, one adds a `+`. It basically prevents the preceding token to be backtracked again. Therefore, that token will never be traversed more than once. Sadly, at this point, `re` does not support it :(. 
 
+Another way to solve the problem, is to not add quantifiers consectively. These are usually symptoms where the regex is over complicated, or the person building that just does not know that this is a problem, since all the positive scenarios are working anyway. 
+
+It'd be better if you can use something like `signal` for stopping the regex operation once it reaches a certain timeout. You can explore how to do that from [here](http://stackoverflow.com/questions/492519/timeout-on-a-function-call), but that itself has it's own set of issues, depending on where you are calling it, and platform based issues as well :(
+ 
 Improper regexes can be notorious, and can lead to disastrous results. 
 - Here is an example of a [stackoverflow downtime](http://stackstatus.net/post/147710624694/outage-postmortem-july-20-2016) that happened on july 2016, caused by a freakish user input (lesson: All user inputs are freakish user inputs :p ) which brought down the server for sometime. It was due to catastrophic backtracking by a very trivial looking regex - `^[\s\u200c]+|[\s\u200c]+$` of which only the second half of the alternation was responsible.
 - Another [example](http://www.benfrederickson.com/python-catastrophic-regular-expressions-and-the-gil/) of server downtime because of catastrophic backtracking. The culprit over here is something akin to `(a+)+b`. The problem seems to compound in the case of python, where if this happens in a multi-threaded environment, due to GIL, the re module can keep backtracking :p. 
