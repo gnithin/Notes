@@ -44,3 +44,78 @@ Let's go through `re.py`. Here are it's basic highlights.
   ```
   {(<class 'str'>, '[a-z]', 0): (re.compile('[a-z]'), None)}
   ```
+- TODO: What is the significance of the locale here? Why is it separate from the regex? I thought it was supposed to be passed into it
+
+
+The main crunching logic for python's regexes are basically in `sre_compile.py`, `sre_parse.py` and `sre_constants.py`.
+
+### `sre_compile`
+This module is basically responsible for creating getting a pattern and representing it in it's internal data structure.
+- Every call to `compile` basically does this - 
+    - Parse the input string using `sre_parse.parse` method. This takes in a regex pattern string and creates an internal structure. 
+    - Here is an example - 
+        - The output of one such structure for a simple pattern(`[a-z]`) is this - 
+        ```
+        Current expression -  [a-z]
+        Parse output -
+        [(IN, [(RANGE, (97, 122))])]
+        ```
+        - TODO: The part below is pure speculation. This will be confirmed, as soon as the internal mechanics of the regex engine is uncovered.
+        - NOTE: From here on, anything like this will come with a `Speculation Alert!` disclaimer in bold.
+
+        - __Speculation alert! ON__
+        - It looks like it's creating a list of individual commands, (tokens would have been a more correct term I guess) that the regex engine needs to follow.
+        - __Speculation alert! OFF__
+
+        - Note: The output is not a list. It's a `sre_parse.SubPattern` type, that's been stringified.
+
+        - For something a little bit more involved - `[a-z]\w*(?:\.\w{1,3})+`
+        ```
+        ****************************************
+        Current expression -  [a-z]\w*(?:\.\w{1,3})+
+        Parse output -
+        [(IN, [(RANGE, (97, 122))]), (MAX_REPEAT, (0, MAXREPEAT, [(IN, [(CATEGORY, CATEGORY_WORD)])])), (MAX_REPEAT, (1, MAXREPEAT, [(SUBPATTERN, (None, [(LITERAL, 46), (MAX_REPEAT, (1, 3, [(IN, [(CATEGORY, CATEGORY_WORD)])]))]))]))]
+        ****************************************
+        ```
+        - Formatting this a little bit, there are a couple of interesting things that come up, which has been elaborated on below in the comments.
+        ```
+        [
+            # [a-z]
+            (IN, [(RANGE, (97, 122))]),
+
+            # \w* (MAX_REPEAT seems to be a token, while MAXREPEAT seems to be a constant denoting infinity. The naming convention sucks here <sidenote>Potential contribution candidate :p</sidenote>)
+            (MAX_REPEAT, (0, MAXREPEAT, [(IN, [(CATEGORY, CATEGORY_WORD)])])),
+
+            # Question: MAX_REPEAT seems to follow (min_iterations, max_iterations, list_of_tokens). 
+            # Why does the third object need to be a list? Couldn't it be a normal pattern? 
+            # Whenever I need to add quantifiers to a bunch of stuff, grouping constructs like `(?:)` or `()` are used,
+            # Which is basically one whole new regex used as a subexpression as you will see below. 
+            # The only thing that strikes me is that it's been kept to support the uniform notion of regexes as a list of tokens
+            # everywhere. That kind of makes sense I guess. I would do that :p
+
+            # (?:\.\w{1,3})+ 
+            (MAX_REPEAT, 
+                (
+                    1, MAXREPEAT, [
+                        (
+                            SUBPATTERN, (
+                                None, [
+                                    # Matches the literal "."
+                                    (LITERAL, 46), 
+
+                                    # \w{1,3}
+                                    (MAX_REPEAT, (1, 3, [(IN, [(CATEGORY, CATEGORY_WORD)])]))
+                                ]
+                            )
+                        )
+                    ]
+                )
+            )
+        ]
+        ```
+        - __Speculation alert! ON__ 
+        - So as an overview of how this piece fits, the regex engine receives this as the input regex, to match against a string.
+        - The regex engine, tries to match element in the list sequentially, one by one.
+        - I guess for tokens like SUBPATTERN, this same logic is recursively called again, for it's contents.
+        - __Speculation alert! OFF__ 
+
