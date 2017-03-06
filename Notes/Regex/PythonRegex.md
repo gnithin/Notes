@@ -119,3 +119,5 @@ This module is basically responsible for creating getting a pattern and represen
         - I guess for tokens like SUBPATTERN, this same logic is recursively called again, for it's contents.
         - __Speculation alert! OFF__ 
 
+### `sre_parse`
+- NOTE: Try out a couple of python in-code debuggers. Maybe the one that ships with proper IDEs, like that one <Whatever it's name is>.
