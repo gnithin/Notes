@@ -9,6 +9,7 @@ This is a list of all the directories and reading materials -
 
 <!-- LABEL_BEGIN -->
 - **Regex**
+  - [PythonRegex.md](https://github.com/gnithin/Notes/tree/master/Notes/Regex/PythonRegex.md)
   - [RegexNotes.md](https://github.com/gnithin/Notes/tree/master/Notes/Regex/RegexNotes.md)
 - **Git**
   - [pre-push.sh](https://github.com/gnithin/Notes/tree/master/Notes/Git/pre-push.sh)
