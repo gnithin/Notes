@@ -418,7 +418,7 @@ Their debugger explains a lot -
 You can even see that when running this is in a python interpreter, like ipython - 
 
 ```python
-In [X]: %time re.findall("^(A+)*B", "AAAAAAAAAAAAAAAAAAAAAAAAAC")
+In [X]: %time re.findall(r"^(A+)*B", "AAAAAAAAAAAAAAAAAAAAAAAAAC")
 CPU times: user 2.18 s, sys: 4.36 ms, total: 2.18 s
 Wall time: 2.18 s
 Out[X]: []
@@ -427,7 +427,42 @@ Notice that it stops after 2 secs.
 
 This is a [better example](http://stackoverflow.com/a/22235225/1518924) where catastrophic backtracking is the first thing that should be considered :) 
 
-The solution to this is using possesive quantifiers. It's basically similar to lazy quantifiers but instead of adding a `?`, one adds a `+`. It basically prevents the preceding token to be backtracked again. Therefore, that token will never be traversed more than once. Sadly, at this point, `re` does not support it :(. 
+The solution to this is using atomic grouping or possesive quantifiers. Possesive quantifiers are basically similar to lazy quantifiers but instead of adding a `?`, one adds a `+`. It prevents the preceding token to be backtracked again. Therefore, that token will never be traversed more than once. Atomic grouping is similar conceptually, but with a different syntax (sigh). Here, the group whose states shouldn't be backtracked are enclosed in a `(?>...)`.Sadly, at this point, `re` does not support atomic grouping and possessive quantifiers :(
+
+But as with everything, there's a simple way we can mimic atomic grouping in python. (Note: This trick is something I picked up from chapter 4 of the incredible book "Introduction to Regular Expressions" by James Friedl, which I've mentioned in the end of this writeup). The goal is to not allow it to backtrack to any of the saved states once a state has been locked on. So, a construct which basically throws away the saved states(for future backtracking) with every match could be useful. That's actually how lookarounds work. The only caveat is that they are zero-length assertions. So you need either repeat the entire regex outside the lookaround or just use a backreference.
+
+So something like `r'^(A+)*B'` becomes `r'^(?=((A+)*))\1B'`. Both the regexes succeed for the same targets, while latter regex fails faster. Here's a working comparision - 
+
+
+```python
+# Here's a comparision of when both should fail - 
+# Note that the number of A's is 28 followed by a B. 
+
+In [33]: %time re.findall(r"^(A+)*C", ("A"*28) + "B")
+CPU times: user 19.4 s, sys: 155 ms, total: 19.5 s
+Wall time: 19.9 s
+Out[33]: []
+
+In [34]: %time re.findall(r"^(?=((A+)*))\1C", ("A"*28) + "B")
+CPU times: user 8 µs, sys: 1 µs, total: 9 µs
+Wall time: 11 µs
+Out[34]: []
+```
+The one without the atomic grouping hack takes 19 seconds, as compared to the 11 micro seconds!
+
+Here's a block just to demonstrate that the matching for successful cases has not been changed.
+
+```python
+In [35]: %time re.findall(r"^(?=((A+)*))\1C", ("A"*28) + "C")
+CPU times: user 10 µs, sys: 0 ns, total: 10 µs
+Wall time: 13.1 µs
+Out[35]: [('AAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAA')]
+
+In [36]: %time re.findall(r"^(A+)*C", ("A"*28) + "C")
+CPU times: user 10 µs, sys: 0 ns, total: 10 µs
+Wall time: 12.9 µs
+Out[36]: ['AAAAAAAAAAAAAAAAAAAAAAAAAAAA']
+```
 
 Another way to solve the problem, is to not add quantifiers consectively. These are usually symptoms where the regex is over complicated, or the person building that just does not know that this is a problem, since all the positive scenarios are working anyway. 
 
