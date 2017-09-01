@@ -19,7 +19,9 @@ This is a list of all the directories and reading materials -
   - [react-notes.md](https://github.com/gnithin/Notes/tree/master/Notes/React-Native/react-notes.md)
   - [rn_dir_helper.sh](https://github.com/gnithin/Notes/tree/master/Notes/React-Native/rn_dir_helper.sh)
 - **iOS**
+  - [JavaScriptCore.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/JavaScriptCore.md)
   - [NamespaceCollisions.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/NamespaceCollisions.md)
+  - [StyleConventionsObjC.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/StyleConventionsObjC.md)
 - **PHP**
   - [pros-n-cons.md](https://github.com/gnithin/Notes/tree/master/Notes/PHP/pros-n-cons.md)
 - **CSS**
