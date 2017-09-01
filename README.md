@@ -21,6 +21,7 @@ This is a list of all the directories and reading materials -
 - **iOS**
   - [JavaScriptCore.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/JavaScriptCore.md)
   - [NamespaceCollisions.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/NamespaceCollisions.md)
+  - [privatePods.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/privatePods.md)
   - [StyleConventionsObjC.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/StyleConventionsObjC.md)
 - **PHP**
   - [pros-n-cons.md](https://github.com/gnithin/Notes/tree/master/Notes/PHP/pros-n-cons.md)
