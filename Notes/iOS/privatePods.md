@@ -24,7 +24,7 @@ $ pod repo push --verbose my-specs ./demo-lib.podspec.json --allow-warnings
 
 ### Using a private pod
 In final app's `Podfile`, add these 2 lines - 
-```
+```ruby
 # At the top of the file (After use_frameworks!, if present)
 source '<my-specs.git>'
 source 'https://github.com/CocoaPods/Specs.git'
@@ -38,7 +38,7 @@ You can add the private pod just like adding normal dependency in the podspec fi
 
 For instance, if you have another library - `SecondLib`, which needs to use `DemoLib`, then add it to the dependency like this - 
 
-```
+```ruby
 # Podspec file (SecondLib.podspec)
 Pod::Spec.new do |s|
     s.dependency 'DemoLib', '1.0.0'
@@ -47,7 +47,7 @@ end
 
 Then in Podfile of the app that uses `SecondLib`, the sources needs to be specified (Just like how you'd specify the sources for incorporating a private pod in your app)
 
-```
+```ruby
 # Podfile of the app that uses `SecondLib`
 source '<my-specs.git>'
 source 'https://github.com/CocoaPods/Specs.git'
