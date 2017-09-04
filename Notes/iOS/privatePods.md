@@ -49,10 +49,11 @@ Then in Podfile of the app that uses `SecondLib`, the sources needs to be specif
 
 ```
 # Podfile of the app that uses `SecondLib`
-```
 source '<my-specs.git>'
 source 'https://github.com/CocoaPods/Specs.git'
 ...
+
 pod 'SecondLib'
+
 ...
 ```
