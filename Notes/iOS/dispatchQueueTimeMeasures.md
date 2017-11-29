@@ -41,7 +41,7 @@ dispatch_async(dispatch_get_main_thread(), task)
  TIME: postQDispatch: 0
 ```
 
-# Adding the check if the it's in the main-thread, else dispatch_async-ing to main-thread
+## Adding the check if the it's in the main-thread, else dispatch_async-ing to main-thread
 ```ObjC
 if([NSThread isMain]){
 	task();
