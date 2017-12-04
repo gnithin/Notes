@@ -24,6 +24,8 @@ This is a list of all the directories and reading materials -
   - [StyleConventionsObjC.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/StyleConventionsObjC.md)
   - [privatePods.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/privatePods.md)
   - [dispatchQueueTimeMeasures.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/dispatchQueueTimeMeasures.md)
+- **Go**
+  - [weirdness.md](https://github.com/gnithin/Notes/tree/master/Notes/Go/weirdness.md)
 - **PHP**
   - [pros-n-cons.md](https://github.com/gnithin/Notes/tree/master/Notes/PHP/pros-n-cons.md)
 - **CSS**
