@@ -21,9 +21,12 @@ This is a list of all the directories and reading materials -
 - **iOS**
   - [JavaScriptCore.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/JavaScriptCore.md)
   - [NamespaceCollisions.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/NamespaceCollisions.md)
+  - [ipas.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/ipas.md)
   - [StyleConventionsObjC.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/StyleConventionsObjC.md)
   - [privatePods.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/privatePods.md)
   - [dispatchQueueTimeMeasures.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/dispatchQueueTimeMeasures.md)
+- **Kafka**
+  - [basics.md](https://github.com/gnithin/Notes/tree/master/Notes/Kafka/basics.md)
 - **Go**
   - [weirdness.md](https://github.com/gnithin/Notes/tree/master/Notes/Go/weirdness.md)
 - **PHP**
