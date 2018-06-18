@@ -20,6 +20,7 @@ This is a list of all the directories and reading materials -
   - [react-notes.md](https://github.com/gnithin/Notes/tree/master/Notes/React-Native/react-notes.md)
 - **iOS**
   - [JavaScriptCore.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/JavaScriptCore.md)
+  - [miscellaneous.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/miscellaneous.md)
   - [NamespaceCollisions.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/NamespaceCollisions.md)
   - [ipas.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/ipas.md)
   - [StyleConventionsObjC.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/StyleConventionsObjC.md)
