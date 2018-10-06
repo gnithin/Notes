@@ -29,6 +29,7 @@ This is a list of all the directories and reading materials -
 - **Kafka**
   - [basics.md](https://github.com/gnithin/Notes/tree/master/Notes/Kafka/basics.md)
 - **Git**
+  - [git-internals.md](https://github.com/gnithin/Notes/tree/master/Notes/Git/git-internals.md)
   - [pre-push.sh](https://github.com/gnithin/Notes/tree/master/Notes/Git/pre-push.sh)
 - **Go**
   - [go-http.md](https://github.com/gnithin/Notes/tree/master/Notes/Go/go-http.md)
