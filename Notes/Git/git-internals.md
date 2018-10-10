@@ -106,6 +106,15 @@ $ hexdump -C .git/objects/b1/4df6442ea5a1b382985a6549b85d435376c351
             $ gti checkout who-am-i
             fatal: reference is not a tree: who-am-i
             ```
+
+### Refspecs
+- [Refspecs](https://git-scm.com/book/en/v2/Git-Internals-The-Refspec) is a mapping of a source-reference and a destination references. Two ref paths.
+- Refspecs come into the picture when dealing with remotes.
+- A remote is nothing but a url and a refspec.
+- Usually adding remotes adds default refspecs, but we can make it as complicated as we want it to be.
+- We can add fetch and push refspecs as well
+- Note that refspecs can have paths as well as any of the hash-entities. It can be a hash, or a branch-name or anything else. More [here](https://git-scm.com/docs/git-push#git-push-ltrefspecgt82308203). 
+
 ### Packing
 - Observation - When a modification in a file is performed, a new blob consisting of the entire file seems to be constructed. This seems highly inefficient. I thought they were storing the line-number and the modified line so that it'll be compact or something. The advantage of this method is that you can very quickly jump between commits/branches, which would mean that you are only loading the data from the tree directly. The diff method would entail traversing the commit history. I guess I was wrong, this method seems much better, although it might take up more space in case of larger files
 - The above observation seems unoriginal since the people who made git took care of that. The compress files and store deltas in something called as packing. It's run whenever pushing to remote or manually when running `git gc`.
