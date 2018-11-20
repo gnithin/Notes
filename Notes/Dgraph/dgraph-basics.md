@@ -8,13 +8,13 @@ NOTE: I think I've worked on this atleast 3 times in the past 1 year and I keep 
 
 ## Queries 
 - Making a query 
-```
-{
-    myFunc(func: eq()){
-        <predicate-name>
+    ```
+    {
+        myFunc(func: eq()){
+            <predicate-name>
+        }
     }
-}
-```
+    ```
     - Think of it as calling a function by passing a function pointer to it
     - The func: here is called the node-filtering function 
 - Helpful in debugging 
@@ -22,7 +22,7 @@ NOTE: I think I've worked on this atleast 3 times in the past 1 year and I keep 
     - Printing all the connected predicates and values - `expand(_all_)`
     - Printing the number of outgoing edges - `count(friend)`
 - In a graph, the objects (or entities) are called nodes and the relationships are called edges or predicates.
-- The RDF specifies - <node1> <predicate> <node2>
+- The RDF specifies - `<node1> <predicate> <node2>`
 - There apparently are two types of nodes
     - uid-nodes
     - propety-nodes
