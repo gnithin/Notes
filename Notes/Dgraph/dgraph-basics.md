@@ -25,7 +25,7 @@ NOTE: I think I've worked on this atleast 3 times in the past 1 year and I keep 
 - The RDF specifies - `<node1> <predicate> <node2>`
 - There apparently are two types of nodes
     - uid-nodes
-    - propety-nodes
+    - property-nodes
 - All uid-nodes have a uid. Node1 is always a uid-node
 - The node2 here are can be property-node, or itself a uid-node
 - All property-nodes fall under a some form of a primitive type
