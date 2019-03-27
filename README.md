@@ -28,8 +28,8 @@ This is a list of all the directories and reading materials -
   - [StyleConventionsObjC.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/StyleConventionsObjC.md)
   - [privatePods.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/privatePods.md)
   - [dispatchQueueTimeMeasures.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/dispatchQueueTimeMeasures.md)
-- **Kafka**
-  - [basics.md](https://github.com/gnithin/Notes/tree/master/Notes/Kafka/basics.md)
+- **js**
+  - [js-basics.md](https://github.com/gnithin/Notes/tree/master/Notes/js/js-basics.md)
 - **Git**
   - [git-internals.md](https://github.com/gnithin/Notes/tree/master/Notes/Git/git-internals.md)
   - [pre-push.sh](https://github.com/gnithin/Notes/tree/master/Notes/Git/pre-push.sh)
@@ -40,5 +40,7 @@ This is a list of all the directories and reading materials -
   - [pros-n-cons.md](https://github.com/gnithin/Notes/tree/master/Notes/PHP/pros-n-cons.md)
 - **CSS**
   - [flex.md](https://github.com/gnithin/Notes/tree/master/Notes/CSS/flex.md)
+- **Kafka**
+  - [basics.md](https://github.com/gnithin/Notes/tree/master/Notes/Kafka/basics.md)
 
 <!-- LABEL_END -->
