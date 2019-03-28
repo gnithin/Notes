@@ -41,3 +41,9 @@ Notes for understanding redux basics. I am following [this book](https://medium.
         https://github.com/reduxjs/redux/pull/1289#issuecomment-175617759
         ```
     - This is because redux assumes that the state returned is a brand new one. Hence, it'll be easier to check for state changes this way. If there is no change, then the state reference remains the same. If there is a state change, then the reference would entirely be different. Hence doing this is a way to simplify the code and it's reasoning (especially in js).
+
+- An action creator is nothing but a function that returns an object with the action-type and the payload (from the function args)
+
+- You can have multiple reducers, which can be used with `combineReducers`
+    - This is pretty useful I guess
+    - This will make the life easy for whenever the state object is too complex
