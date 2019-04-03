@@ -42,6 +42,5 @@
 - Why is www such a special sub-domain name?
     - www is just a sub-domain like any-other
 
-## References 
-- [1]: https://computer.howstuffworks.com/dns3.htm
-- [2]: https://www.digitalocean.com/community/tutorials/an-introduction-to-dns-terminology-components-and-concepts
+[1]: https://computer.howstuffworks.com/dns3.htm
+[2]: https://www.digitalocean.com/community/tutorials/an-introduction-to-dns-terminology-components-and-concepts
