@@ -43,7 +43,7 @@
     - www is just a sub-domain like any-other.
     - Some answers like [this one](https://superuser.com/a/60013), justify it's presence based on historical reasons. It was simply used to describe the url to be a part of the web. That's it.
     - There are other answers that talk about redirecting everyting to www and add a CNAME of a CDN to www([this link](https://serverfault.com/questions/145777/what-s-the-point-in-having-www-in-a-url)), but I am not really sure of that argument. Why can't I simply do what Cloudflare does currently? But this is an advantage of having ANY string, not just www, this doesn't justify why it's just www anyway.
-    - NOTE: Any reasoning that talks about cookies is factually outdated since by default cookies are not set for sub-domains. It needs to be explicitly specified with the root domain([refer this](https://stackoverflow.com/a/23086139/1518924)), also refer to [this awesome test](https://scripts.cmbuckley.co.uk/cookies.php) which checks out.
+    - NOTE: Any reasoning that talks about cookies is factually outdated since by default cookies are not set for sub-domains. Set-cookie now, needs to be explicitly specified with the root domain([refer this](https://stackoverflow.com/a/23086139/1518924)), also refer to [this awesome test](https://scripts.cmbuckley.co.uk/cookies.php) which checks out. Also [this note](https://tools.ietf.org/html/rfc6265#section-4.1.2.3) `If the server omits the Domain attribute, the user agent will return the cookie only to the origin server.`
 
 [1]: https://computer.howstuffworks.com/dns3.htm
 [2]: https://www.digitalocean.com/community/tutorials/an-introduction-to-dns-terminology-components-and-concepts
