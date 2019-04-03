@@ -28,6 +28,9 @@ This is a list of all the directories and reading materials -
   - [StyleConventionsObjC.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/StyleConventionsObjC.md)
   - [privatePods.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/privatePods.md)
   - [dispatchQueueTimeMeasures.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/dispatchQueueTimeMeasures.md)
+- **Hosting**
+  - [DNS.md](https://github.com/gnithin/Notes/tree/master/Notes/Hosting/DNS.md)
+  - [hosting-custom-domain.md](https://github.com/gnithin/Notes/tree/master/Notes/Hosting/hosting-custom-domain.md)
 - **js**
   - [redux.md](https://github.com/gnithin/Notes/tree/master/Notes/js/redux.md)
   - [js-basics.md](https://github.com/gnithin/Notes/tree/master/Notes/js/js-basics.md)
