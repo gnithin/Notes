@@ -3,10 +3,10 @@
 - Domains are bought from registrars, who have the infrastructure for creating and maintaining their own DNS servers.
 - A DNS server that contains the IP to host mapping for a specific host is called the start of authority (SOA). Over time, the results from looking up hosts at the SOA will propagate to other DNS servers, which in turn propagate to other DNS servers, and so on, a host will be available across the internet [[1]]
 - At the very top of the DNS servers, sits the root-name-server. The root-name-server contains the addresses for top-level-domain root-servers. [[2]]
-- Every top level domain root server contains the details of SOA for every hostname in it's domain.
+- Every top level domain root server contains the details of SOA for every hostname in it's domain - [[1]]
 	```
 	This great web of DNS servers includes the root name servers, which start at the top of the domain hierarchy for a given top-level domain. There are hundreds of root name servers to choose from for each top-level domain. Though DNS lookups don't have to start at a root name server, they can contact a root name server as a last resort to help track down the SOA for a domain.
-	```[[1]]
+	```
 - So riddikulus.tech (my domain), will have the original name-server information in a DNS-server operated by the vendor(called registrars). This will be a SOA. The location of this SOA will be registered/stored/updated into the TLD root-name servers of .tech, which in turn will have it's info in the root-name-servers.
 - Using the DNS servers from your registrar or hosting company means that you have a parked domain. This means that someone else owns the computer hardware for the DNS servers, and your domain is just part of that company's larger DNS configuration
     - By this definition, most of the domain names are basically parked domain names
@@ -29,10 +29,10 @@
 - What's the difference between the name-server and the A-type(host) records? They both seem to be doing the same thing?
     - A name server is a computer designated to translate domain names into IP addresses [[2]].
     - Zone files reside in name servers and generally define the resources available under a specific domain, or the place that one can go to get that information.
-    - But apart from this, there is also a NS record. 
-    - ```
-    You may be wondering, "if the zone file resides on the name server, why does it need to reference itself?". Part of what makes DNS so successful is its multiple levels of caching. One reason for defining name servers within the zone file is that the zone file may be actually being served from a cached copy on another name server.
-    ```[[2]]
+    - But apart from this, there is also a NS record -  [[2]]
+      ```
+        You may be wondering, "if the zone file resides on the name server, why does it need to reference itself?". Part of what makes DNS so successful is its multiple levels of caching. One reason for defining name servers within the zone file is that the zone file may be actually being served from a cached copy on another name server.
+      ```
 
 - Which system call is used to resolve the hostname?
     - `gethostbyname` is used when creating a socket connection
