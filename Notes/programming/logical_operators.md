@@ -30,7 +30,7 @@ Let us go through the myraid of ways that this can be done.
 a = None
 b = SomeObject()
 
-# Tracing way (Not good)
+#### Tracing way (Not good)
 if a != None:
 	if b != None:
 		# Both exist
@@ -42,7 +42,7 @@ else:
 	else:
 		# Both don't exist
 
-# More common way (I might be wrong)
+#### More common way (I might be wrong)
 if a != None and b != None:
 	# Both exist
 elif a != None or b != None:
@@ -54,7 +54,7 @@ elif a != None or b != None:
 else:
 	# Both don't exist
 
-# Putting everything into one umbrella
+#### Putting everything into one umbrella
 if a == None or b == None:
 	if a == None and b == None:
 		# Both are None
@@ -65,7 +65,7 @@ if a == None or b == None:
 else:
 	# Both exist
 
-# Using xor (Short circuiting it)
+#### Using xor (Short circuiting it)
 if a != None xor b != None:
 	# Either one exists
 	if a != None:
