@@ -31,6 +31,7 @@ a = None
 b = SomeObject()
 
 #### Tracing way (Not good)
+```
 if a != None:
 	if b != None:
 		# Both exist
@@ -41,8 +42,10 @@ else:
 		# Only b exists
 	else:
 		# Both don't exist
+```
 
-#### More common way (I might be wrong)
+#### Prioritizing both exist
+```
 if a != None and b != None:
 	# Both exist
 elif a != None or b != None:
@@ -53,8 +56,10 @@ elif a != None or b != None:
 		# b exists
 else:
 	# Both don't exist
+```
 
 #### Putting everything into one umbrella
+```
 if a == None or b == None:
 	if a == None and b == None:
 		# Both are None
@@ -64,8 +69,10 @@ if a == None or b == None:
 		# b is None
 else:
 	# Both exist
+```
 
 #### Using xor (Short circuiting it)
+```
 if a != None xor b != None:
 	# Either one exists
 	if a != None:
@@ -76,3 +83,4 @@ elif a != None:
 	# Both a and b exists
 else:
 	# Both a and b don't exist
+```
