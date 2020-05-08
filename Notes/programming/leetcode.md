@@ -43,15 +43,16 @@ def longestOnes(self, nums: List[int], K: int) -> int:
 	    if nums[r] == 0:
 	        curr_zeroes += 1
 	        
-	    if curr_zeroes > K:            
+	    # Shrinking logic
+	    if curr_zeroes > K:
 	        while l <= r and nums[l] != 0:
 	            l += 1
 	        l += 1
 	        curr_zeroes -= 1
 	    
 	    max_len = max(max_len, r - l + 1)
-	        
+
 	return max_len
 ```
-- In the above we notice shte while loop. We can remove the while-loop by using a queue. The point of the queue is to store the indices of 0s. So that whenever the number of 0s go beyond a limit, we can simply pop the queue, and assign l to (q.pop() + 1). Like this, some problems will require a hash-table, or a heap.
+- In the above we notice the while loop when shrinking. We can remove the while-loop by using a queue. The point of the queue is to store the indices of 0s. So that whenever the number of 0s go beyond a limit, we can simply pop the queue, and assign l to (q.pop() + 1). Like this, some problems will require a hash-table, or a heap.
 
