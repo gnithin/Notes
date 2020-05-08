@@ -33,10 +33,10 @@ This is going to be some notes on handling certain types of problems when doing 
 		- Dicts - If you want to store the indexes or frequency of the entries 
 		- Heaps(prority queue) - If you want to store the max or min within the l and r indices.
 - Basic boiler plate code ([Max Consecutive Ones problem](https://leetcode.com/problems/max-consecutive-ones-iii/))
-  ```python
-  # Here we need to make sure that the window has atmost K zeroes
-  def longestOnes(self, nums: List[int], K: int) -> int:
-  	max_len = 0
+```python
+# Here we need to make sure that the window has atmost K zeroes
+def longestOnes(self, nums: List[int], K: int) -> int:
+	max_len = 0
 	curr_zeroes = 0
 	l = 0
 	for r in range(len(nums)):
@@ -51,7 +51,7 @@ This is going to be some notes on handling certain types of problems when doing 
 	    
 	    max_len = max(max_len, r - l + 1)
 	        
-    return max_len
-  ```
+	return max_len
+```
 - In the above we notice shte while loop. We can remove the while-loop by using a queue. The point of the queue is to store the indices of 0s. So that whenever the number of 0s go beyond a limit, we can simply pop the queue, and assign l to (q.pop() + 1). Like this, some problems will require a hash-table, or a heap.
 
