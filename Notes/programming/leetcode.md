@@ -68,6 +68,8 @@ def longestOnes(self, nums: List[int], K: int) -> int:
 ## Dynamic programming
 Coming up with the recursive solution is 80% the battle. After that implementing it via bottom-up with table or top-down with memoization is the challenge.
 
+Here is a [very good link](https://leetcode.com/discuss/general-discussion/475924/my-experience-and-notes-for-learning-dp) that needs to be read
+
 Some common and interesting recursive relations for problems -
 - Finding the number of squares with 1 value and it's variations
 	- The trick is to assume the current element to be the bottom right index of the square.
