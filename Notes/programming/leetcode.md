@@ -16,6 +16,7 @@ This is going to be some notes on handling certain types of problems when doing 
 	- https://medium.com/outco/how-to-solve-sliding-window-problems-28d67601a66
 	- This is a really good resource.
 	- Start reading this when you are trying to solve medium questions.
+- Note that sliding window is a kind of DP! Since we are expanding and shrinking the window, and not recomputing the elements inside the range in every iteration, we are basically reusing it. So, it's a kind of implicit memoization.
 
 ### Basic intuition
 - Always start thinking from left to right.
@@ -56,6 +57,13 @@ def longestOnes(self, nums: List[int], K: int) -> int:
 ```
 - In the above we notice the while loop when shrinking. We can remove the while-loop by using a queue. The point of the queue is to store the indices of 0s. So that whenever the number of 0s go beyond a limit, we can simply pop the queue, and assign `l` to `(q.pop() + 1)`. Like this, some problems will require a hash-table, or a heap.
 
+- Another type of sliding window problem, disguised as a DP problem - Taking turns to pick an element from either end of an array. This was not at all intuitive at first, but this is a sliding window which loops back from the end to the start, like a circular queue. 
+	- Here is a post that explains that very well - https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/discuss/597883/Javascript-and-C%2B%2B-solutions
+		- Pay special attention to the diagram
+	- Sample problems - 
+		- https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/
+		- Sliding window problem disguised as DP problem - https://leetcode.com/problems/stone-game/
+
 
 ## Dynamic programming
 Coming up with the recursive solution is 80% the battle. After that implementing it via bottom-up with table or top-down with memoization is the challenge.
@@ -74,3 +82,5 @@ Some common and interesting recursive relations for problems -
 	- `C[i,j] = a[i,j] + min(C[i+1, j], C[i+1, j - 1], C[i+1, j + 1])`
 	- Problems - 
 		- https://leetcode.com/problems/minimum-falling-path-sum/submissions/
+
+
