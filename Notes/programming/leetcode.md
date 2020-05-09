@@ -28,7 +28,7 @@ This is going to be some notes on handling certain types of problems when doing 
 - Shrinking can be one index at a time, multiple indexes at a time, or directly assigning value of the leftmost index to the rightmost index.
 	- The first and last case are straightforward. After figuring them out, no need to do anything else
 	- For the second case, usually it involves a while loop.
-	- Therefore, doing this sometime makes the algo run 2N the time. Asymptotically it's nothing. 
+	- Therefore, doing this sometime makes the algo run `2N` the time. Asymptotically it's nothing. 
 	- But sometimes it can be optimized by using a data-structure 
 		- Dicts - If you want to store the indexes or frequency of the entries 
 		- Heaps(prority queue) - If you want to store the max or min within the l and r indices.
@@ -49,10 +49,25 @@ def longestOnes(self, nums: List[int], K: int) -> int:
 	            l += 1
 	        l += 1
 	        curr_zeroes -= 1
-	    
+
 	    max_len = max(max_len, r - l + 1)
 
 	return max_len
 ```
-- In the above we notice the while loop when shrinking. We can remove the while-loop by using a queue. The point of the queue is to store the indices of 0s. So that whenever the number of 0s go beyond a limit, we can simply pop the queue, and assign l to (q.pop() + 1). Like this, some problems will require a hash-table, or a heap.
+- In the above we notice the while loop when shrinking. We can remove the while-loop by using a queue. The point of the queue is to store the indices of 0s. So that whenever the number of 0s go beyond a limit, we can simply pop the queue, and assign `l` to `(q.pop() + 1)`. Like this, some problems will require a hash-table, or a heap.
+
+
+## Dynamic programming
+Coming up with the recursive solution is 80% the battle. After that implementing it via bottom-up with table or top-down with memoization is the challenge.
+
+Some very common recursive relations for problems -
+- Finding the number of squares with 1 value and it's variations
+	- The trick is to assume the current element to be the bottom right index of the square.
+	- Then we can calcuate it's size based on the size from top, left and top-left values.
+	- `C[i,j] = 1 + min(C[i-1,j], C[i, j-1], C[i-1, j-1])`
+	- Problems - 
+		- https://leetcode.com/problems/count-square-submatrices-with-all-ones/
+		- https://leetcode.com/problems/maximal-square/submissions/
+
+
 

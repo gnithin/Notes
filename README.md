@@ -22,6 +22,7 @@ This is a list of all the directories and reading materials -
   - [react-notes.md](https://github.com/gnithin/Notes/tree/master/Notes/React-Native/react-notes.md)
 - **programming**
   - [leetcode.md](https://github.com/gnithin/Notes/tree/master/Notes/programming/leetcode.md)
+  - [CTCI.md](https://github.com/gnithin/Notes/tree/master/Notes/programming/CTCI.md)
   - [logical_operators.md](https://github.com/gnithin/Notes/tree/master/Notes/programming/logical_operators.md)
 - **iOS**
   - [JavaScriptCore.md](https://github.com/gnithin/Notes/tree/master/Notes/iOS/JavaScriptCore.md)
