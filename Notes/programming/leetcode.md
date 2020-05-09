@@ -60,7 +60,7 @@ def longestOnes(self, nums: List[int], K: int) -> int:
 ## Dynamic programming
 Coming up with the recursive solution is 80% the battle. After that implementing it via bottom-up with table or top-down with memoization is the challenge.
 
-Some very common recursive relations for problems -
+Some common and interesting recursive relations for problems -
 - Finding the number of squares with 1 value and it's variations
 	- The trick is to assume the current element to be the bottom right index of the square.
 	- Then we can calcuate it's size based on the size from top, left and top-left values.
@@ -69,5 +69,8 @@ Some very common recursive relations for problems -
 		- https://leetcode.com/problems/count-square-submatrices-with-all-ones/
 		- https://leetcode.com/problems/maximal-square/submissions/
 
-
-
+- Checkerboard problem 
+	- Find the minimum or maxiumum path length from one side to the other.
+	- `C[i,j] = a[i,j] + min(C[i+1, j], C[i+1, j - 1], C[i+1, j + 1])`
+	- Problems - 
+		- https://leetcode.com/problems/minimum-falling-path-sum/submissions/
