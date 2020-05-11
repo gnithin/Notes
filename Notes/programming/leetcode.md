@@ -85,4 +85,13 @@ Some common and interesting recursive relations for problems -
 	- Problems - 
 		- https://leetcode.com/problems/minimum-falling-path-sum/submissions/
 
-
+- Longest common substring
+	- Assume that, from the end, whatever matches is part of the solution.
+	- ```
+	   	C[i,j] =	C[i-1][j-1], 			if s[i] == t[j],
+	   				max(					else 
+	   					C[i-1][j],			
+	   					C[i][j-1]
+	   				)						
+	```
+	- Then the final solution would be given by - `C[0][0]`
