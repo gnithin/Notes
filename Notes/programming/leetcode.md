@@ -107,3 +107,25 @@ Some common and interesting recursive relations for problems -
 		```
 		- Note that C[0] is 0. Everything else can be set to positive inf. This will allow us to filter those amounts that cannot be made up by the denominations.
 	- Problem - https://leetcode.com/problems/coin-change/
+
+- Circular DP problems -
+	- There are some problems which involve circular arrays.
+	- We cannot apply DP on them, because when creating a recurrence relation C[i] will depend on other C[i+-1]. It will never depend on itself. In circular lists, this rule breaks. The dependency graph of a DP will no longer be a DAG and there will be a cycle.
+	- Usually the solution will involve - 
+		- Break the question down into some forms where you can apply the DP.
+		- Combine the solution. 
+		- When breaking it down does not work, try to think of some property of the input array. Sometimes making something into a cycle will add additional properties and simplify things into 2 groups.
+	- Problems - 
+		- https://leetcode.com/problems/house-robber-ii/
+		- https://leetcode.com/problems/maximum-sum-circular-subarray/
+
+- Longest increasing subsequence -
+	- Find the longest (strictly) increasing subsequence.
+	- C[i] represents the length of the longest inc. subseqence from i to n. Realizing this was the tricky part.
+	- The recurrence - 
+	  ```
+	  C[i] = max(1 + C[k]) For k in i...n, if A[i] < A[k]
+	  ```
+	- Problem - https://leetcode.com/problems/longest-increasing-subsequence/
+
+
