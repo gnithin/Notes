@@ -129,3 +129,20 @@ Some common and interesting recursive relations for problems -
 	- Problem - https://leetcode.com/problems/longest-increasing-subsequence/
 
 
+## Really good posts to start leetcoding
+- Blind 75
+	- These cover most of the techniques asked by interviewers. Covering this would be a good start. 
+	- Note that this list contains some questions that are LC hard and require premium.
+	- https://leetcode.com/discuss/general-discussion/460599/blind-75-leetcode-questions
+	- https://www.teamblind.com/post/New-Year-Gift---Curated-List-of-Top-75-LeetCode-Questions-to-Save-Your-Time-OaM1orEU
+- Patterns to solve interview questions - 
+	- This link is a top-level view of most of the patterns. Really useful - 
+		- https://hackernoon.com/14-patterns-to-ace-any-coding-interview-question-c5bb3357f6ed?source=bookmarks---------13-----------------------
+- Sliding window - 
+	- Really good way to start learning about sliding window - 
+		- https://medium.com/@zengruiwang/sliding-window-technique-360d840d5740
+	- The best resource on all forms of sliding window. Very good explanation - 
+		- https://medium.com/outco/how-to-solve-sliding-window-problems-28d67601a66
+
+
+
