@@ -144,14 +144,6 @@ Some common and interesting recursive relations for problems -
 	- The best resource on all forms of sliding window. Very good explanation - 
 		- https://medium.com/outco/how-to-solve-sliding-window-problems-28d67601a66
 
-
-## Trees
-All the basic high low questions comes down to how to traverse the tree. Here are the three traversals, both recursive and non-recursive form - 
-
-### TODO: All the tree traversals
-
-
-
 ## Subsets
 - Getting the power set of a given input
 	- Requires a queue/stack
@@ -192,3 +184,66 @@ All the basic high low questions comes down to how to traverse the tree. Here ar
 			max_val = max(max_val, prev_val)
 		return max_val
 	```
+
+## Trees
+All the basic high low questions comes down to how to traverse the tree. Here are the three traversals, both recursive and non-recursive form.
+
+### Preorder traversal
+#### Recursive
+```
+def pre_traverse(self, root):
+	if root is None:
+	    return
+	print(root.val)
+	self.pre_traverse(root.left)
+	self.pre_traverse(root.right)
+```
+
+#### Non recursive
+This is straight-forward use of a stack. Replace this with a queue, and you have level-order.
+```
+def pre_traverse(self, root):
+    s = deque()
+    s.append(root)
+    while len(s) > 0:
+        curr = s.pop()
+        print(curr.val)
+        if curr.right is not None:
+            s.append(curr.right)
+        if curr.left is not None:
+            s.append(curr.left)
+
+```
+
+### Inorder traversal
+#### Recursive 
+```
+def in_traverse(self, root):
+    if root is None:
+        return 
+    self.in_traverse(root.left)
+    print(root.val)
+    self.in_traverse(root.right)
+```
+
+#### Non-recursive 
+- Keeping pushing the current element's left entry until there is no more
+- Then pop from the stack. Print it.
+- Make the current element the right element.
+- Repeat.
+- Note that the right element is never put in the stack. It is just set to the current element. This was always the confusing thing.
+```
+def in_traverse(self, root):
+    s = deque()
+    curr = root
+    while True:
+        while curr is not None:
+            s.append(curr)
+            curr = curr.left
+        if len(s) == 0:
+            break
+        curr = s.pop()
+        print(curr.val)
+        curr = curr.right
+
+```
