@@ -89,8 +89,8 @@ Some common and interesting recursive relations for problems -
 	- Assume that, from the end, whatever matches is part of the solution.
 	- C[i,j] here represents the length of the longest common substring between 0 and i in s1 and 0 and j in s2.
 	- ```
-	   	C[i,j] =	C[i-1][j-1], 			if s[i] == t[j],
-	   				max(					else 
+	   	C[i,j] =	C[i-1][j-1],   if s[i] == t[j],
+	   				max(           else 
 	   					C[i-1][j],			
 	   					C[i][j-1]
 	   				)						
@@ -143,6 +143,38 @@ Some common and interesting recursive relations for problems -
 		- https://medium.com/@zengruiwang/sliding-window-technique-360d840d5740
 	- The best resource on all forms of sliding window. Very good explanation - 
 		- https://medium.com/outco/how-to-solve-sliding-window-problems-28d67601a66
+
+
+## Trees
+All the basic high low questions comes down to how to traverse the tree. Here are the three traversals, both recursive and non-recursive form - 
+
+### TODO: All the tree traversals
+
+
+
+## Subsets
+- Getting the power set of a given input
+	- Requires a queue/stack
+	- Pop entry from the queue
+	- Add it to result set
+	- Iterate through every index of the entry, create a new entry without that index, and add it to the queue.
+	- Repeat until the queue is not empty
+	```
+	res = set()
+	q = deque()
+	q.append(nums)
+	q.append([]) 
+	while len(q) > 0:
+	    n = q.pop()
+	    res.add(tuple(n))
+	    for i in range(len(n)):
+	        v = n[:i] + n[i+1:]
+	        if len(v) > 0:
+	            q.append(v)
+	return res
+	```
+	- Problem - https://leetcode.com/problems/subsets/
+
 
 
 
