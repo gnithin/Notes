@@ -244,3 +244,25 @@ def in_traverse(self, root):
         curr = curr.right
 
 ```
+
+### Level order traversal
+This is basically non-recursive pre-order with a queue, instead of a stack.
+```python
+def levelOrder(self, root: TreeNode) -> List[List[int]]:
+    if root is None:
+        return []
+    q = deque()
+    q.append((root, 0))
+    while len(q) > 0:
+        curr, lvl = q.popleft()
+        print(f"Value - {curr.val} - level - {lvl}")
+        
+        if curr.left is not None:
+            q.append((curr.left, lvl+1))
+            
+        if curr.right is not None:
+            q.append((curr.right, lvl+1))
+```
+- Related problems - 
+	- https://leetcode.com/problems/binary-tree-level-order-traversal
+
