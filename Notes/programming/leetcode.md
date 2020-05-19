@@ -175,6 +175,20 @@ All the basic high low questions comes down to how to traverse the tree. Here ar
 	```
 	- Problem - https://leetcode.com/problems/subsets/
 
-
-
-
+## Kadane's algorithm 
+- This is crucial for finding maximum sum of a sub-array. This is very often asked.
+	- https://leetcode.com/problems/maximum-subarray/
+	- This is a kind of DP (sliding window)
+	- Basic gist is for every element, you can either start a new sub-array from it, or continue from a previous starting point
+	- If starting of the sub-array, then you need to use the original element.
+	- If it's the middle of the sub-array, then you need a use the rolling sum.
+	- Maximization of the both these entries leads to the maximum result somewhere in the array
+	```
+	def maxSubArray(self, nums: List[int]) -> int:
+		max_val = nums[0]
+		prev_val = nums[0]
+		for i in range(1, len(nums)):
+			prev_val = max(nums[i] + nums[0], nums[i])
+			max_val = max(max_val, prev_val)
+		return max_val
+	```
