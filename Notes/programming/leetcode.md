@@ -88,12 +88,9 @@ Some common and interesting recursive relations for problems -
 - Longest common substring
 	- Assume that, from the end, whatever matches is part of the solution.
 	- C[i,j] here represents the length of the longest common substring between 0 and i in s1 and 0 and j in s2.
-	- ```
-	   	C[i,j] =	C[i-1][j-1],   if s[i] == t[j],
-	   				max(           else 
-	   					C[i-1][j],			
-	   					C[i][j-1]
-	   				)						
+	```
+      C[i,j] = C[i-1][j-1] -> if s[i] == t[j],
+               max(C[i-1][j],C[i][j-1]) -> s[i] != t[j]
 	```
 	- Then the final solution would be given by - `C[m][n]`
 
@@ -102,8 +99,8 @@ Some common and interesting recursive relations for problems -
 	- For particular denominations, this problem is greedy (When the values are exponents of each other)
 	- Recurrence - 
 		- C[n] - Represents the minimum number of coins for amount n
-		- ```
-			C[n] = min(1 + C[n - coin[k]])	For k in 0..number of denominations
+		```
+		C[n] = min(1 + C[n - coin[k]])	For k in 0..number of denominations
 		```
 		- Note that C[0] is 0. Everything else can be set to positive inf. This will allow us to filter those amounts that cannot be made up by the denominations.
 	- Problem - https://leetcode.com/problems/coin-change/
