@@ -266,3 +266,8 @@ def levelOrder(self, root: TreeNode) -> List[List[int]]:
 - Related problems - 
 	- https://leetcode.com/problems/binary-tree-level-order-traversal
 
+
+## Backtracking questions - 
+
+This is a very big write-up.
+https://leetcode.com/problems/permutations/discuss/18239/A-general-approach-to-backtracking-questions-in-Java-(Subsets-Permutations-Combination-Sum-Palindrome-Partioning)
