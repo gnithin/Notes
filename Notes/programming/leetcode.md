@@ -271,3 +271,43 @@ def levelOrder(self, root: TreeNode) -> List[List[int]]:
 
 This is a very big write-up.
 https://leetcode.com/problems/permutations/discuss/18239/A-general-approach-to-backtracking-questions-in-Java-(Subsets-Permutations-Combination-Sum-Palindrome-Partioning)
+
+Whenever doing backtracking questions, make sure that you also think in terms of DFS. I always for some reason, start with BFS, and code it out, but usually it's inefficient. One disadvantage is storing worlds (in this storing the visited entries). Since with DFS, you can write a recursive solution, the worlds can be handled much better. 
+
+Problem that exhibits the above the idea 
+- Word-search 2 - https://leetcode.com/problems/word-search-ii/
+	- Refer this answer to how simple and elegant the recursive solution can be - https://leetcode.com/problems/word-search-ii/discuss/59780/Java-15ms-Easiest-Solution-(100.00)
+- Word search 1 - https://leetcode.com/problems/word-search 
+
+## Binary search
+
+I unnecessarily complicate binary search related questions.
+Usually working it out fully on paper is better than writing out the code.
+Binary search to find the correct position of insertion.
+
+```python
+def getIndex(self, price):
+    numStocks = len(self.stocks)
+    if numStocks == 0:
+        return -1
+    
+    # find the last value that is <= price
+    l = 0
+    r = numStocks - 1
+    while l <= r:
+        if l == r:
+            if self.stocks[l] < price:
+                return l + 1
+            return l
+        mid = (l + r) // 2
+        if self.stocks[mid] <= price:
+            l = mid + 1
+        else:
+            r = mid - 1
+    if r < 0:
+        return r
+    if price >= self.stocks[r] and price < self.stocks[l]:
+        return l
+    else:
+        return r
+```
