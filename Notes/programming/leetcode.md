@@ -88,12 +88,9 @@ Some common and interesting recursive relations for problems -
 - Longest common substring
 	- Assume that, from the end, whatever matches is part of the solution.
 	- C[i,j] here represents the length of the longest common substring between 0 and i in s1 and 0 and j in s2.
-	- ```
-	   	C[i,j] =	C[i-1][j-1],   if s[i] == t[j],
-	   				max(           else 
-	   					C[i-1][j],			
-	   					C[i][j-1]
-	   				)						
+	```
+      C[i,j] = C[i-1][j-1] -> if s[i] == t[j],
+               max(C[i-1][j],C[i][j-1]) -> s[i] != t[j]
 	```
 	- Then the final solution would be given by - `C[m][n]`
 
@@ -102,8 +99,8 @@ Some common and interesting recursive relations for problems -
 	- For particular denominations, this problem is greedy (When the values are exponents of each other)
 	- Recurrence - 
 		- C[n] - Represents the minimum number of coins for amount n
-		- ```
-			C[n] = min(1 + C[n - coin[k]])	For k in 0..number of denominations
+		```
+		C[n] = min(1 + C[n - coin[k]])	For k in 0..number of denominations
 		```
 		- Note that C[0] is 0. Everything else can be set to positive inf. This will allow us to filter those amounts that cannot be made up by the denominations.
 	- Problem - https://leetcode.com/problems/coin-change/
@@ -246,4 +243,113 @@ def in_traverse(self, root):
         print(curr.val)
         curr = curr.right
 
+```
+
+### Level order traversal
+This is basically non-recursive pre-order with a queue, instead of a stack.
+```python
+def levelOrder(self, root: TreeNode) -> List[List[int]]:
+    if root is None:
+        return []
+    q = deque()
+    q.append((root, 0))
+    while len(q) > 0:
+        curr, lvl = q.popleft()
+        print(f"Value - {curr.val} - level - {lvl}")
+        
+        if curr.left is not None:
+            q.append((curr.left, lvl+1))
+            
+        if curr.right is not None:
+            q.append((curr.right, lvl+1))
+```
+- Related problems - 
+	- https://leetcode.com/problems/binary-tree-level-order-traversal
+
+## Binary search
+
+I unnecessarily complicate binary search related questions.
+Usually working it out fully on paper is better than writing out the code.
+Binary search to find the correct position of insertion.
+
+```python
+def getIndex(self, price):
+    numStocks = len(self.stocks)
+    if numStocks == 0:
+        return -1
+    
+    # find the last value that is <= price
+    l = 0
+    r = numStocks - 1
+    while l <= r:
+        if l == r:
+            if self.stocks[l] < price:
+                return l + 1
+            return l
+        mid = (l + r) // 2
+        if self.stocks[mid] <= price:
+            l = mid + 1
+        else:
+            r = mid - 1
+    if r < 0:
+        return r
+    if price >= self.stocks[r] and price < self.stocks[l]:
+        return l
+    else:
+        return r
+```
+
+## Backtracking questions - 
+
+This is a very big write-up.
+https://leetcode.com/problems/permutations/discuss/18239/A-general-approach-to-backtracking-questions-in-Java-(Subsets-Permutations-Combination-Sum-Palindrome-Partioning)
+
+Whenever doing backtracking questions, make sure that you also think in terms of DFS. I always for some reason, start with BFS, and code it out, but usually it's inefficient. One disadvantage is storing worlds (in this storing the visited entries). Since with DFS, you can write a recursive solution, the worlds can be handled much better. 
+
+Problem that exhibits the above the idea 
+- Word-search 2 - https://leetcode.com/problems/word-search-ii/
+	- Refer this answer to how simple and elegant the recursive solution can be - https://leetcode.com/problems/word-search-ii/discuss/59780/Java-15ms-Easiest-Solution-(100.00)
+- Word search 1 - https://leetcode.com/problems/word-search 
+
+
+There is a bunch of problems on matrices, that have standard DFS solutions - 
+- Pacific atlantic water flow - https://leetcode.com/problems/pacific-atlantic-water-flow/
+- Number of islands - https://leetcode.com/problems/number-of-islands/
+
+These are textbook DFS.
+
+Another really unique question, that uses DFS is - 
+- Longest consective sequence - https://leetcode.com/problems/longest-consecutive-sequence/
+	- This can be done in O(n) with the right use of sets!!!
+	- A really awesome answer, if I say so myself :) 
+
+Standard DFS solution looks like this - 
+```python
+def main(matrix, rows, cols):
+	for i in range(rows):
+		for j in range(cols):
+			DFS(matrix, i, j)
+
+def DFS(self, matrix, i, j):
+	rows = len(matrix)
+	cols = len(matrix[0])
+	# Perform bound checks on i and j
+	if i < 0 or j < 0 or i >= rows or j >= cols:
+		return 
+
+	# Check for some kind of condition here
+
+	# Set current entry as visited
+	c = matrix[i][j]
+	matrix[i][j] = "V"
+
+	self.DFS(matrix, i+1, j)
+	self.DFS(matrix, i-1, j)
+	self.DFS(matrix, i, j+1)
+	self.DFS(matrix, i, j-1)
+
+	# Unset visited
+	matrix[i][j] = c
+
+	return
 ```
