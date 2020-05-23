@@ -266,19 +266,6 @@ def levelOrder(self, root: TreeNode) -> List[List[int]]:
 - Related problems - 
 	- https://leetcode.com/problems/binary-tree-level-order-traversal
 
-
-## Backtracking questions - 
-
-This is a very big write-up.
-https://leetcode.com/problems/permutations/discuss/18239/A-general-approach-to-backtracking-questions-in-Java-(Subsets-Permutations-Combination-Sum-Palindrome-Partioning)
-
-Whenever doing backtracking questions, make sure that you also think in terms of DFS. I always for some reason, start with BFS, and code it out, but usually it's inefficient. One disadvantage is storing worlds (in this storing the visited entries). Since with DFS, you can write a recursive solution, the worlds can be handled much better. 
-
-Problem that exhibits the above the idea 
-- Word-search 2 - https://leetcode.com/problems/word-search-ii/
-	- Refer this answer to how simple and elegant the recursive solution can be - https://leetcode.com/problems/word-search-ii/discuss/59780/Java-15ms-Easiest-Solution-(100.00)
-- Word search 1 - https://leetcode.com/problems/word-search 
-
 ## Binary search
 
 I unnecessarily complicate binary search related questions.
@@ -310,4 +297,59 @@ def getIndex(self, price):
         return l
     else:
         return r
+```
+
+## Backtracking questions - 
+
+This is a very big write-up.
+https://leetcode.com/problems/permutations/discuss/18239/A-general-approach-to-backtracking-questions-in-Java-(Subsets-Permutations-Combination-Sum-Palindrome-Partioning)
+
+Whenever doing backtracking questions, make sure that you also think in terms of DFS. I always for some reason, start with BFS, and code it out, but usually it's inefficient. One disadvantage is storing worlds (in this storing the visited entries). Since with DFS, you can write a recursive solution, the worlds can be handled much better. 
+
+Problem that exhibits the above the idea 
+- Word-search 2 - https://leetcode.com/problems/word-search-ii/
+	- Refer this answer to how simple and elegant the recursive solution can be - https://leetcode.com/problems/word-search-ii/discuss/59780/Java-15ms-Easiest-Solution-(100.00)
+- Word search 1 - https://leetcode.com/problems/word-search 
+
+
+There is a bunch of problems on matrices, that have standard DFS solutions - 
+- Pacific atlantic water flow - https://leetcode.com/problems/pacific-atlantic-water-flow/
+- Number of islands - https://leetcode.com/problems/number-of-islands/
+
+These are textbook DFS.
+
+Another really unique question, that uses DFS is - 
+- Longest consective sequence - https://leetcode.com/problems/longest-consecutive-sequence/
+	- This can be done in O(n) with the right use of sets!!!
+	- A really awesome answer, if I say so myself :) 
+
+Standard DFS solution looks like this - 
+```python
+def main(matrix, rows, cols):
+	for i in range(rows):
+		for j in range(cols):
+			DFS(matrix, i, j)
+
+def DFS(self, matrix, i, j):
+	rows = len(matrix)
+	cols = len(matrix[0])
+	# Perform bound checks on i and j
+	if i < 0 or j < 0 or i >= rows or j >= cols:
+		return 
+
+	# Check for some kind of condition here
+
+	# Set current entry as visited
+	c = matrix[i][j]
+	matrix[i][j] = "V"
+
+	self.DFS(matrix, i+1, j)
+	self.DFS(matrix, i-1, j)
+	self.DFS(matrix, i, j+1)
+	self.DFS(matrix, i, j-1)
+
+	# Unset visited
+	matrix[i][j] = c
+
+	return
 ```
