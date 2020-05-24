@@ -311,17 +311,19 @@ Problem that exhibits the above the idea
 	- Refer this answer to how simple and elegant the recursive solution can be - https://leetcode.com/problems/word-search-ii/discuss/59780/Java-15ms-Easiest-Solution-(100.00)
 - Word search 1 - https://leetcode.com/problems/word-search 
 
-
 There is a bunch of problems on matrices, that have standard DFS solutions - 
 - Pacific atlantic water flow - https://leetcode.com/problems/pacific-atlantic-water-flow/
 - Number of islands - https://leetcode.com/problems/number-of-islands/
+- Increasing path in a matrix - https://leetcode.com/problems/longest-increasing-path-in-a-matrix/
+	- Note that this has a memoization component to it as well.
 
-These are textbook DFS.
+These are textbook DFS. Here is a nice rundown of how to approach the DFS questions - 
+https://leetcode.com/problems/pacific-atlantic-water-flow/discuss/90739/Python-DFS-bests-85.-Tips-for-all-DFS-in-matrix-question.
 
 Another really unique question, that uses DFS is - 
 - Longest consective sequence - https://leetcode.com/problems/longest-consecutive-sequence/
 	- This can be done in O(n) with the right use of sets!!!
-	- A really awesome answer, if I say so myself :) 
+	- A really awesome answer, if I say so myself :)
 
 Standard DFS solution looks like this - 
 ```python
