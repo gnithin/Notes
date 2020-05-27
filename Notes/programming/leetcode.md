@@ -355,3 +355,8 @@ def DFS(self, matrix, i, j):
 
 	return
 ```
+
+## Array questions -
+- When DP, sliding window, and graphs don't work. Try doing the manipulations logically.
+- Some sample problems - 
+	- https://leetcode.com/problems/contiguous-array/
