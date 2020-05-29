@@ -360,3 +360,20 @@ def DFS(self, matrix, i, j):
 - When DP, sliding window, and graphs don't work. Try doing the manipulations logically.
 - Some sample problems - 
 	- https://leetcode.com/problems/contiguous-array/
+
+## Graphs 
+- Finding the path with the lowest cost - 
+	- https://leetcode.com/problems/network-delay-time/
+	- This needs Djikstra's algorithm to be efficient, but the non-efficient solution is also accepted.
+	- Read up on Djikstra's algorithm - https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+- Understanding Bi-partite graphs - 
+	- https://leetcode.com/problems/possible-bipartition/
+	- NOTE - 
+		- I had absolutely no idea on how to solve this properly.
+		- Read up on these -
+			- https://math.stackexchange.com/a/311670/744624
+			- https://www.cs.cmu.edu/~adamchik/21-127/lectures/graphs_5_print.pdf
+		- Turns out, that we have to mark nodes as red and blue. 
+		- Red will only touch blues, and vice versa. If there's an anomaly, then it's not a bi-partite graph.
+		- This cannot be solved using union-find. Union-find is used for finding cycles in a graph. A bi-partite graph can have a cycle, but it needs to be of even length (of both nodes and edges). So in this scenario, finding cycles isn't enough. 
+Both the DFS and BFS way will work.
