@@ -6,7 +6,6 @@ import sys
 
 PRINT_LOG = False
 
-
 class DirTree:
     sep = ";"
     default_struct = {
@@ -50,8 +49,11 @@ class DirTree:
                                 copy.deepcopy(self.default_struct)
 
                     if len(files):
-                        for f in files:
-                            current_obj["files"].append(f)
+                        for file_name in files:
+                            # Ignore hidden files
+                            if file_name.startswith("."):
+                                continue
+                            current_obj["files"].append(file_name)
 
                     current_obj["base_path"] = working_path.replace(
                         self.sep,
