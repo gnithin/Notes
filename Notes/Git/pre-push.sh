@@ -9,6 +9,9 @@
 # To prevent the last push to recursively call this hook infinitely,
 # referred to this awesome answer (point 3) - http://stackoverflow.com/a/21334985/1518924 
 
+# NOTE: In order to quickly add this for this repo, run this (Basically creates a hard-link to the pre-push file) -  
+# $ ln Notes/Git/pre-push.sh .git/hooks/pre-push
+
 # Run the file and try to commit 
 # Note: It's expected that readme_maker will print the names of the files that've been modified
 OP_CONTENTS="$(python readme_maker.py)"
