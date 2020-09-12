@@ -8,7 +8,6 @@ Almost nothing in this repo will be original. Do not forget to put as many refer
 This is a list of all the directories and reading materials - 
 
 <!-- LABEL_BEGIN -->
-- [.DS_Store](https://github.com/gnithin/Notes/tree/master/Notes//.DS_Store)
 - **Dgraph**
   - [dgraph-basics.md](https://github.com/gnithin/Notes/tree/master/Notes/Dgraph/dgraph-basics.md)
 - **Go**
