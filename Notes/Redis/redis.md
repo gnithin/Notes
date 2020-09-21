@@ -56,6 +56,66 @@ Due to this problem with using Redis as a data-store, we need to use fixzed numb
 - Implementation details are on the site. It seems really simple though. Love their simplicity for everything
 
 ## Redis Sentinel
-TODO
+- Referring to this guide - https://redis.io/topics/sentinel
+- Although Redis Cluster is a solution to sharding a large amount of data into different redis instances, it still has the problem of availability.
+- Redis Sentinel is a solution to that. 
+- Sentinel also providers monitoring, notifications and config provider for clients (microservices can hit a Redis Sentinel for discovering other services. Sentinel will be the source of truth)
+- There could be multiple Sentinel processes cooperating with each other
+- So in a Redis Sentinel distributed system, you'll have Sentinel processes, Redis instances (some master, some replicas) and client applications.
+- Sentinel processes basically look out for the functioning of the Redis instances.
+- In order to start Sentinel processes, we need to provide a configuration file, with only the details about the master instances
+- QUESTION - I wonder how redis auto-discovers the replicas?
+- The main line in the config file is - 
+  ```sentinel monitor <master-group-name> <ip> <port> <quorum>```
+- The sentinel processes mark the instance with the given ip-port as master.
+- The quorum field is important. Quorum is basically the number of Sentinel processes that need to agree so that the master is marked as failing. Note that Quorum only talks about the pre-condition for failure. Not for starting failover.
+- So if the command looks like - `sentinel monitor random-master 127.0.0.1 6739 2` where the quorum is 2
+- The `random-master` will be marked as failure if atleast 2 sentinel processes fail to reach it.
+- Either of the 2 sentinel processes are eligible to start the fail-over. There needs to be an election to determine the Sentinel process responsible to start the fail-over.
+- If there are a total of 5 Sentinel processes, and there's a network partition of 2 and 3 nodes, the failover will not start from the minority paritition (the 2 nodes partition).
+- I think this is so that there aren't multiple copies of master.
+- The working of Sentinel failovers heavily depends upon the configuration. Since it is a distributed system, different configurations can deliver different results
+
+The "Quick Tutorial" section in the redis guide is quite amazing. It's very simple to do. Some pain-points that I encountered - 
+- My redis-sentinels were not discovering each other. At first I thought it's because of the garbage I have inside `etc/hosts` but that was not the case. Seems like it needs to run on ports which are not being used elsewhere (also, Yes, multiple processes [can listen on the same TCP/UDP port apparently under some configuration](https://stackoverflow.com/a/8824852/1518924))
+- For some reason I somehow misunderstood that I just have to setup multiple redis instances by simply running `redis-server` and by virtue of sentinel configuration, it'll pick the master and make the other one the replica. This is not true. Make sure to set the replicas explicitly - `$ redis-server --port 10002 --replicaof 127.0.0.1 10001`
+
+- [QUESTION] How will using redis-sentinel with client libraries work? There needs to be a persistent connection with a sentinel and then changes to master, and other things. I am not super sure of that.
+
+## Understanding Redis Persistence
+- Referring this first - http://oldblog.antirez.com/post/redis-persistence-demystified.html
+
+An oversimplied view of writing from application layer to disk
+- Application writes to DB (redis in this case)
+- Db calls a system call to write the data into the disk. This system call sends the data into the kernel buffer
+- The OS writes the data into the disk-controller, the kernel buffer is flushed into the disk-cache
+- From the disk-cache the data is finally written into physical disks by the disk controller
+
+All I notice here is a bunch of abstractions that are introduced so that any kind of mix and match will work as intended (different physical disk, different OS, different DB, different application). This realization is important.
+
+Another important thing to note here is that the buffer is important otherwise waiting to write to the physical disk is slow
+
+What the DBs can possibly do to when data-corruption is identified - 
+- If there is heavy replication, the client can be told to use a replica (I guess this works for downtime as well)
+- Store the sequence of commands that change the state of the db. Can possibly revert all the commands to some point before corruption.
+- The root of corruption is modifying something in-place. If the DB is append-only, then we are basically un-corruptible
+
+Redis provides 2 ways to prevent corruption - 
+
+#### Snapshotting
+- Take data-dumps of the db based on a certain set of conditions - 
+	- Time passed
+	- Number of writes
+- Taking Snapshots can cause some data-loss, depending on the conditions encountered on the said snapshot. If the snapshot is taken every 15 mins, then we should be ready to lose 15 mins of user-data, when data-corruption or failure happens.
+- For Master-replica synchronization, Snapshots are used.
+
+#### Append Only File
+- For any kind of write operation, an AOF is created, that'll append the commands onto a file. 
+- This file can be re-run on restart of an instance
+- AOF is an always growing file
+
+
+
+
 
 
