@@ -47,6 +47,7 @@ Due to this problem with using Redis as a data-store, we need to use fixzed numb
 
 
 ## Redis cluster replication
+- Refer this - https://redis.io/topics/replication
 - Each instance can have replicas of itself. There can be mulitple replicas for an instance.
 - If an instance goes down, then it's replica can take it's place. 
 - Note that the instance and the replicas might not be in the same state all the time. 
