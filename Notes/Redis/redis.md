@@ -52,7 +52,7 @@ Due to this problem with using Redis as a data-store, we need to use fixzed numb
 - Note that the instance and the replicas might not be in the same state all the time. 
 - Redis does not guarantee strong consistency between the instances and replicas.
 - The reason for this is that it writes to the replicas asynchronously. If it wrote ynchronously, then the client application would need to wait for a particular key to be written to the instance and all it's replicas, before getting back control. Apparently, this is a bottleneck
-- There are situations where if an instance goes down and it's replica is set up as the master, then it is not the exact state that of the instance that went down. It might a bit old, because there would've been some writes which were missed (maybe it was being written when the replica was turned into a master, maybe there was temporary network partioning for sometime, and the replica has some data that is missing during that period)
+- There are situations where if an instance goes down and it's replica is set up as the primary-instance, then it is not the exact state that of the instance that went down. It might a bit old, because there would've been some writes which were missed (maybe it was being written when the replica was turned into a primary, maybe there was temporary network partioning for sometime, and the replica has some data that is missing during that period)
 - Implementation details are on the site. It seems really simple though. Love their simplicity for everything
 
 ## Redis Sentinel
@@ -61,26 +61,26 @@ Due to this problem with using Redis as a data-store, we need to use fixzed numb
 - Redis Sentinel is a solution to that. 
 - Sentinel also providers monitoring, notifications and config provider for clients (microservices can hit a Redis Sentinel for discovering other services. Sentinel will be the source of truth)
 - There could be multiple Sentinel processes cooperating with each other
-- So in a Redis Sentinel distributed system, you'll have Sentinel processes, Redis instances (some master, some replicas) and client applications.
+- So in a Redis Sentinel distributed system, you'll have Sentinel processes, Redis instances (some primary, some replicas) and client applications.
 - Sentinel processes basically look out for the functioning of the Redis instances.
-- In order to start Sentinel processes, we need to provide a configuration file, with only the details about the master instances
-- QUESTION - I wonder how redis auto-discovers the replicas?
+- In order to start Sentinel processes, we need to provide a configuration file, with only the details about the primary instances
+- QUESTION - I wonder how redis auto-discovers the replicas? It does not. When starting a replica, you have to state that something is a replica of something.
 - The main line in the config file is - 
   ```sentinel monitor <master-group-name> <ip> <port> <quorum>```
-- The sentinel processes mark the instance with the given ip-port as master.
-- The quorum field is important. Quorum is basically the number of Sentinel processes that need to agree so that the master is marked as failing. Note that Quorum only talks about the pre-condition for failure. Not for starting failover.
+- The sentinel processes mark the instance with the given ip-port as primary.
+- The quorum field is important. Quorum is basically the number of Sentinel processes that need to agree so that the primary is marked as failing. Note that Quorum only talks about the pre-condition for failure. Not for starting failover.
 - So if the command looks like - `sentinel monitor random-master 127.0.0.1 6739 2` where the quorum is 2
 - The `random-master` will be marked as failure if atleast 2 sentinel processes fail to reach it.
 - Either of the 2 sentinel processes are eligible to start the fail-over. There needs to be an election to determine the Sentinel process responsible to start the fail-over.
 - If there are a total of 5 Sentinel processes, and there's a network partition of 2 and 3 nodes, the failover will not start from the minority paritition (the 2 nodes partition).
-- I think this is so that there aren't multiple copies of master.
+- I think this is so that there aren't multiple copies of primary instance.
 - The working of Sentinel failovers heavily depends upon the configuration. Since it is a distributed system, different configurations can deliver different results
 
 The "Quick Tutorial" section in the redis guide is quite amazing. It's very simple to do. Some pain-points that I encountered - 
 - My redis-sentinels were not discovering each other. At first I thought it's because of the garbage I have inside `etc/hosts` but that was not the case. Seems like it needs to run on ports which are not being used elsewhere (also, Yes, multiple processes [can listen on the same TCP/UDP port apparently under some configuration](https://stackoverflow.com/a/8824852/1518924))
-- For some reason I somehow misunderstood that I just have to setup multiple redis instances by simply running `redis-server` and by virtue of sentinel configuration, it'll pick the master and make the other one the replica. This is not true. Make sure to set the replicas explicitly - `$ redis-server --port 10002 --replicaof 127.0.0.1 10001`
+- For some reason I somehow misunderstood that I just have to setup multiple redis instances by simply running `redis-server` and by virtue of sentinel configuration, it'll pick the primary and make the other one the replica. This is not true. Make sure to set the replicas explicitly - `$ redis-server --port 10002 --replicaof 127.0.0.1 10001`
 
-- [QUESTION] How will using redis-sentinel with client libraries work? There needs to be a persistent connection with a sentinel and then changes to master, and other things. I am not super sure of that.
+- [QUESTION] How will using redis-sentinel with client libraries work? There needs to be a persistent connection with a sentinel and then changes to primary, and other things. I am not super sure of that.
 
 ## Understanding Redis Persistence
 - Referring this first - http://oldblog.antirez.com/post/redis-persistence-demystified.html
@@ -95,6 +95,11 @@ All I notice here is a bunch of abstractions that are introduced so that any kin
 
 Another important thing to note here is that the buffer is important otherwise waiting to write to the physical disk is slow
 
+One important distinction to have in mind when thinking about persistence - using write and fsync.
+When a user-process calls write, the data is moved from the user-space to the kernel space. That's it. In the kernel space, it would be in a buffer. So when the write returns, there's no guarantee that the data has actually been persisted on the disk (Depends on how often the OS flushes the buffer onto the disk. Linux apparently does this every 30 seconds (doesn't that seem like a long time though?)). So this would mean that if after a write operation is performed, and the process crashes/fails, we can be sure that the data is not lost, and will be written to the disk in eventually. But if after write operation, there's a power-loss, then there could be a possibility of data-loss, since the data might still be in the kernel buffer, and not flushed entirely into the disk.
+
+Fsync solves this. Fsync returns when we know that the data is written to the disk completely. This is what dbs use. This protects against power failures, the way write call cannot. Note that this is an expensive operation. Here's a [good answer](https://stackoverflow.com/a/10371152/1518924) that illustrates this. Note that if at the disk level, there's another disk buffer or something like that, then fsync might fail too! (Soo many buffers!)
+
 What the DBs can possibly do to when data-corruption is identified - 
 - If there is heavy replication, the client can be told to use a replica (I guess this works for downtime as well)
 - Store the sequence of commands that change the state of the db. Can possibly revert all the commands to some point before corruption.
@@ -107,12 +112,48 @@ Redis provides 2 ways to prevent corruption -
 	- Time passed
 	- Number of writes
 - Taking Snapshots can cause some data-loss, depending on the conditions encountered on the said snapshot. If the snapshot is taken every 15 mins, then we should be ready to lose 15 mins of user-data, when data-corruption or failure happens.
-- For Master-replica synchronization, Snapshots are used.
+- For primary-replica synchronization, Snapshots are used.
 
 #### Append Only File
-- For any kind of write operation, an AOF is created, that'll append the commands onto a file. 
+- For any kind of write operation, an AOF is created, that'll append the commands onto a file. The operative keyword here is not just "write" but anything that actually modifies the existing data-set. So deleting a key that does not exist, does not update the AOF file.
 - This file can be re-run on restart of an instance
 - AOF is an always growing file
+- If the AOF gets too big (I guess there is a configuration somewhere that controls this size), the process to create a new AOF is initiated.
+- This new AOF is created from the data in the memory (This is similar to an rdb dump, but with commands I guess)
+- The new data is written to the disk using fsync, replacing the old one. While the rewrite process is going on, the new commands are written to the old AOF file and also a temporary user-buffer which will be written into the new rewrite AOF before fsyncing.
+- We can control the rate at which the AOF is populated by tuning the appendfsync command. This basically tunes how often fsync is run. The most optimal way (with regard to how expensive fsync is vs how durable we want our system to be) is to use `appendfsync everysec`
+- Using `appendfsync always` is apparently akin to using a database. Although I am not sure about this comparision, since this is talking about backups. But I think the underlying point is about persistence so, I guess it's a fair compaision to make.
+
+
+## Redis pipeling vs transactions vs scripting
+- Refer this - https://rafaeleyng.github.io/redis-pipelining-transactions-and-lua-scripts
+- An important thing to remember here is that redis is single-threaded
+
+### Pipelining
+- This is batching. Send a bunch of commands to run, and then get the responses all together. 
+- Saves a lot of network time
+- The whole pipeline is not atomic
+- If there's an error, the next command will be run as usual
+- No way to use intermediate responses
+
+### Transactions
+- Refer to this as well - https://redis.io/topics/transactions
+- The whole set of commands is atomic
+- There will be no commands from other client being run when a transaction is being performed
+- The commands will be queued one by one, and will be executed at once using the EXEC
+- If for some reason we don't need the transaction anymore, we can run DISCARD (I think that can be used for checkout pages or something like that)
+- Transactions are aborted if there are errors that happen while queuing or while exec-ing
+- No way to use intermediate responses
+
+### Lua scripts,
+- The entire running of the script is atomic, much like a transaction 
+- Can use intermediate responses
+- Basically does everything the other 2 don't (Haha)
+
+
+
+
+
 
 
 
