@@ -77,8 +77,7 @@ class DirTree:
             pprint(self.dir_tree)
 
     def get_text(self):
-        current_obj = self.dir_tree
-        return self.__text_from_tree(current_obj)
+        return self.__text_from_tree(self.dir_tree)
 
     def __text_from_tree(self, current_obj, level=0,
                          final_text="", dir_name=""):
@@ -95,7 +94,7 @@ class DirTree:
                     dir_name
                 )
 
-            for f in files:
+            for f in sorted(files):
                 current_text += "{0}- [{1}]({2})\n".format(
                     tab*level,
                     self.format_file_name(f),
@@ -104,7 +103,7 @@ class DirTree:
 
         dirs = current_obj.get("dirs", None)
         if dirs and len(dirs):
-            for d in dirs:
+            for d in sorted(dirs):
                 current_text += self.__text_from_tree(
                     current_obj["dirs"][d],
                     level+1,
