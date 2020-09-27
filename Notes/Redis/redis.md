@@ -152,12 +152,12 @@ Redis provides 2 ways to prevent corruption -
 - Basically does everything the other 2 don't (Haha)
 
 
+## Caching
+This is an aside for caching mechanisms - 
+- Write-through cache - This is the caching mechanism that I are aware of. The cache will write to disk, write to itself and then tells the caller, it is done
+- Write-back cache - This writes the data to itself, tells the caller it is done, and expects to sync with the disk later on.
 
-
-
-
-
-
+Note that, usually disks perform write-back caches. Personally I think write-back caches sound like a great idea, but seems hard to implement, atleast at the level of applications (services talking to each other). Maybe this makes sense in at the OS level.
 
 
 
